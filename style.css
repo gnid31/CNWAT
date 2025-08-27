@@ -1,0 +1,449 @@
+.profile-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 72px;
+}
+.profile-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 8px #bde0fe;
+    border: 2px solid #457b9d;
+    margin-right: 0;
+}
+/* Reset và font chung */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%; /* Ensure html and body take full viewport height */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* A more modern, friendly font */
+    line-height: 1.6; /* Slightly increased line height for readability */
+    color: #333; /* Softer black for text */
+    background: linear-gradient(to right, #e0f2f7, #c1e4f2); /* Light blue gradient */
+    background: #f5f7fa; /* Light background color */
+    min-height: 100vh; /* Ensure body takes at least full viewport height */
+    margin: 0; /* Remove default body margin */
+}
+
+/* Layout */
+.container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+#top {
+    background-color: white;
+    color: black;
+    padding: 0;
+    border-bottom: none; /* Bỏ đường chia cắt */
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    /* height: 150px; */ /* Bỏ chiều cao cố định */
+}
+
+#logo {
+    margin-top: 50px; /* Giữ khoảng cách từ trên xuống */
+    width: 30%;
+    padding: 20px;
+    border-right: none; /* Bỏ đường chia cắt */
+    display: flex;
+    justify-content: flex-start; /* Căn trái nội dung */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    text-align: left;
+}
+
+#logo h2 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+#logo p {
+    margin-bottom: 2px;
+}
+
+#logo p:first-child {
+    font-family: 'Be Vietnam Pro', sans-serif; /* Sử dụng font hỗ trợ tiếng Việt */
+    font-weight: 700;
+    font-size: 1.8em; /* Giảm nhẹ kích thước */
+    margin-bottom: 2px; /* Giảm khoảng cách để gần hơn */
+    color: #007bff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    text-transform: none;
+}
+
+.student-info {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 1.2em; /* Điều chỉnh kích thước nhỏ hơn một chút so với tên */
+    color: #555; /* Màu xám nhạt hơn */
+    margin-top: 0;
+    font-style: normal;
+    letter-spacing: 0.5px;
+    text-shadow: none; /* Bỏ đổ bóng */
+}
+
+#logo img {
+    border-radius: 0;
+    border: none;
+    width: 80px; /* Adjust size as needed */
+    height: 80px;
+    object-fit: cover;
+    margin-top: 5px; /* Khoảng cách trên từ văn bản */
+}
+
+#banner {
+    width: 70%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em; /* Adjust font size for banner text */
+    background: linear-gradient(to right, #a8dadc, #457b9d); /* Gradient màu xanh */
+    color: #f1faee; /* Màu chữ trắng/sáng */
+    padding: 15px 20px; /* Tăng padding */
+    border-left: none;
+}
+
+#banner h1 {
+    color: black;
+    text-shadow: none;
+    margin: 0;
+}
+
+#banner p {
+    font-size: 2em; /* Kích thước chữ lớn hơn nhiều */
+    font-weight: bold;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4); /* Đổ bóng mạnh hơn để tạo chiều sâu */
+    font-family: 'Be Vietnam Pro', sans-serif; /* Đảm bảo font nhất quán */
+}
+
+/* Middle section */
+#middle {
+    display: flex;
+    min-height: 400px;
+    border-bottom: none; /* Bỏ đường chia cắt */
+    box-shadow: none; /* Bỏ đổ bóng */
+    flex-grow: 1; /* Allow middle section to grow and fill available space */
+}
+
+#left {
+    width: 30%; /* Make left column width similar to header left */
+    border-right: none; /* Bỏ đường chia cắt */
+}
+
+#center {
+    width: 70%; /* Make center column width similar to header right */
+    padding: 20px;
+    background-color: white;
+}
+
+/* Adjustments for content inside #center */
+#center h1 {
+    font-weight: bold;
+    font-size: 1.5em;
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 10px;
+}
+
+#center p {
+    margin-bottom: 5px;
+}
+
+.clear {
+    clear: both;
+}
+
+/* Menu - Keep existing styles or adjust if necessary */
+#left ul {
+    list-style-type: none;
+    padding-left: 0; /* Remove default padding for ul */
+    background-color: #f1faee; /* Added background */
+    padding: 10px; /* Add padding inside the background */
+    border-radius: 8px; /* Optional: give it some rounded corners */
+}
+
+#left ul li {
+    margin-bottom: 5px;
+}
+
+#left ul li a {
+    text-decoration: none;
+    color: black;
+    display: block;
+    padding: 8px 10px; /* Add some padding back */
+    border-radius: 4px; /* Slightly rounded for menu items */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#left ul li a:hover {
+    background-color: #add8e6; /* Light blue on hover */
+    color: #2c3e50;
+}
+
+#left ul li a.active {
+    background-color: #457b9d; /* Màu xanh nổi bật */
+    color: #fff; /* Chữ trắng */
+    font-weight: bold;
+    box-shadow: 0 2px 8px #bde0fe;
+    border-left: 4px solid #007bff; /* Viền trái nổi bật */
+    background-image: linear-gradient(to right, #457b9d, #6a96b5); /* Gradient cho hiệu ứng highlight */
+    transition: background-color 0.3s, color 0.3s, background-image 0.3s ease; /* Thêm transition cho background-image */
+}
+
+/* Bottom section */
+#bottom {
+    background-color: white;
+    color: black;
+    text-align: center;
+    padding: 10px;
+    clear: both;
+    border-top: none; /* Bỏ đường chia cắt */
+}
+
+/* Global table styles if any are used in the content */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+/* General text styles */
+h1, h2, h3 {
+    font-family: 'Be Vietnam Pro', sans-serif; /* Áp dụng font Be Vietnam Pro */
+    color: #333; /* Giữ màu mềm mại */
+    margin-bottom: 10px;
+}
+
+.profile-block h3 {
+    margin-top: 30px; /* Tăng khoảng cách giữa Học vấn và Số điện thoại */
+    margin-bottom: 5px; /* Giảm khoảng cách giữa Học vấn và các ý nhỏ */
+}
+
+.profile-block ul {
+    padding-left: 20px; /* Căn chỉnh chấm đầu dòng thẳng hàng */
+    margin-top: 5px; /* Giảm khoảng cách giữa Học vấn và các ý nhỏ */
+}
+
+/* Specific styling for the header in the main content area based on image */
+.content-header {
+    font-family: 'Be Vietnam Pro', sans-serif; /* Áp dụng font Be Vietnam Pro */
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 1.8em; /* Điều chỉnh kích thước để giống tiêu đề mẫu */
+    color: #333; /* Màu đen/xám đậm để rõ ràng */
+    text-shadow: none; /* Bỏ đổ bóng để trông đơn giản như hình */
+}
+
+/* Ensure the overall container for the page has a border */
+#main-container {
+    border: none; /* Bỏ khung */
+    margin: 0; /* Đặt lại margin */
+    max-width: none; /* Bỏ giới hạn chiều rộng */
+    border-radius: 0; /* Bỏ bo góc */
+    overflow: visible; /* Cho phép tràn */
+    box-shadow: none; /* Bỏ đổ bóng */
+    min-height: 100%; /* Ensure main-container takes full height of body */
+    display: flex; /* Enable flexbox for vertical layout */
+    flex-direction: column; /* Stack children vertically */
+}
+
+/* Adjust banner for a more welcoming look */
+#banner {
+    background-color: #e0f2f7; /* Light blue background */
+    color: #2c3e50; /* Darker text for contrast */
+    padding: 20px;
+    border-left: none;
+}
+
+/* Responsive design adjustments - simplify as per new layout */
+@media (max-width: 768px) {
+    #top, #middle {
+        flex-direction: column;
+        height: auto;
+    }
+    #logo, #banner, #left, #center {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid black; /* Add border between stacked sections */
+    }
+}
+
+.flex-align-center {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Khoảng cách giữa ảnh và chữ */
+}
+
+/* CV Page Styles */
+.cv-container {
+    font-family: Arial, sans-serif;
+    width: 100%;
+    max-width: 900px; /* Adjust as needed */
+    margin: 20px auto; /* Center the CV and add some margin */
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden; /* Clears floats */
+}
+
+.cv-header {
+    display: flex;
+    background-color: #f0f0f0; /* Light grey background for header */
+    padding: 20px;
+    align-items: center;
+    border-bottom: 2px solid #eee;
+}
+
+.cv-header-left {
+    flex-shrink: 0; /* Prevent avatar from shrinking */
+    margin-right: 20px;
+}
+
+.cv-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ccc;
+}
+
+.cv-header-right {
+    flex-grow: 1; /* Allow content to take available space */
+}
+
+.cv-name {
+    font-size: 2.2em;
+    margin-bottom: 5px;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.cv-job-title {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.cv-contact-info p {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+.cv-contact-info .material-icons {
+    font-size: 16px;
+    color: #333;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.cv-contact-info img.cv-icon {
+    width: 16px; /* Size for icons */
+    height: 16px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.cv-body {
+    display: flex;
+}
+
+.cv-column {
+    padding: 20px;
+}
+
+.left-column {
+    flex: 1;
+    border-right: 1px solid #eee;
+    background-color: #f9f9f9;
+}
+
+.right-column {
+    flex: 2;
+}
+
+.cv-section {
+    margin-bottom: 20px;
+}
+
+.cv-section h3 {
+    font-size: 1.1em;
+    color: #333;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.cv-section ul {
+    list-style: none; /* Remove default bullet points */
+    padding-left: 0; /* Remove default padding for ul */
+}
+
+.cv-section ul li {
+    margin-bottom: 8px;
+    position: relative;
+    /* padding-left: 0; removed */
+}
+
+.cv-section ul li span.cv-check {
+    margin-right: 5px;
+    color: #333; /* Black/dark gray checkmark */
+}
+
+.cv-section ul li span {
+    color: #333; /* Default color for text */
+}
+
+/* For skills section to align checkmarks */
+.cv-section ul.has-icon li {
+    display: flex;
+    align-items: flex-start;
+}
+
+.cv-section ul.has-icon li span.cv-check {
+    margin-right: 5px; /* Adjust spacing between checkmark and text */
+}
+
+/* For lists that need a dash */
+.cv-section ul.has-icon li::before {
+    content: none; /* Hide default bullet for lists with specific icons */
+}
+
+.cv-section p {
+    margin-bottom: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .cv-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .cv-header-left {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    .cv-body {
+        flex-direction: column;
+    }
+    .left-column {
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+}

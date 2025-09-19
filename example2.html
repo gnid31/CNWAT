@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>Câu 2. Đây là ví dụ sử dụng Textbox và Chương trình con</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="main-container">
+        <div id="top"></div>
+        
+        <div id="middle">
+            <div id="left"></div>
+            
+            <div id="center">
+                <p class="content-header">Câu 2. Ví dụ sử dụng Textbox và Chương trình con (Function)</p>
+                <div class="content-text">
+                    <p>Trong ví dụ này, chúng ta sẽ tìm hiểu cách sử dụng hộp văn bản (textbox) để nhận dữ liệu từ người dùng và xử lý dữ liệu đó bằng một chương trình con (hay còn gọi là hàm - function) trong JavaScript.</p>
+                    <p>Nhập tên của bạn vào ô bên dưới và nhấn nút để xem thông báo.</p>
+                    <form name="inputForm">
+                        <label for="userName">Tên của bạn:</label>
+                        <input type="text" id="userName" name="T1" placeholder="Nhập tên..." onkeypress="handleEnter(event)">
+                        <button type="button" onclick="displayInput()">Chào bạn</button>
+                    </form>
+                    <p id="outputMessage" style="margin-top: 20px; font-weight: bold;"></p>
+                </div>
+                <script type="text/javascript">
+                    function displayInput() {
+                        let userName = document.getElementById('userName').value;
+                        let outputMessage = document.getElementById('outputMessage');
+
+                        if (userName.trim() !== '') {
+                            outputMessage.textContent = "Xin chào, " + userName + "! Rất vui được gặp bạn.";
+                        } else {
+                            outputMessage.textContent = "Bạn chưa nhập tên. Vui lòng thử lại.";
+                        }
+                    }
+                    function handleEnter(event) {
+                        if (event.key === 'Enter') {
+                            event.preventDefault(); // Ngăn chặn hành vi mặc định của phím Enter
+                            displayInput();
+                            document.getElementById('userName').blur(); // Loại bỏ focus khỏi input
+                        }
+                    }
+                </script>
+            </div>
+        </div>
+        
+        <div id="bottom"></div>
+    </div>
+<script>
+    async function loadCommonElements() {
+        const headerResponse = await fetch('common_header.html');
+        document.getElementById('top').innerHTML = await headerResponse.text();
+
+        const navResponse = await fetch('common_navigation_bai2.html');
+        document.getElementById('left').innerHTML = await navResponse.text();
+
+        const footerResponse = await fetch('common_footer.html');
+        document.getElementById('bottom').innerHTML = await footerResponse.text();
+
+        // After loading common elements, apply navigation highlighting
+        let currentPath = window.location.pathname.split('/').pop();
+        if (currentPath === '') {
+            currentPath = 'index.html';
+        }
+        const navLinks = document.querySelectorAll('#left ul li a');
+
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (currentPath === linkPath || (currentPath.startsWith('example') && currentPath.endsWith('.html') && linkPath === 'example_list.html') || (currentPath.startsWith('test') && currentPath.endsWith('.html') && linkPath === 'quiz_list.html') || (currentPath.startsWith('form_lop.html') && linkPath === 'form_lop.html') || (currentPath.startsWith('form_hoso.html') && linkPath === 'form_hoso.html')) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCommonElements);
+</script>
+</body>
+</html>

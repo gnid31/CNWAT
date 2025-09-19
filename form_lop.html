@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>2.3. Form nhập liệu LOP</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="main-container">
+        <div id="top"></div>
+        
+        <div id="middle">
+            <div id="left"></div>
+            
+            <div id="center">
+                <p class="content-header">2.3. Form nhập liệu LOP</p>
+                <div class="content-text">
+                    <form id="lopForm">
+                        <div class="form-group">
+                            <label for="malop">Mã lớp:</label>
+                            <input type="text" id="malop" name="malop" maxlength="6" required>
+                            <span class="error-message" id="malopError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tenlop">Tên lớp:</label>
+                            <input type="text" id="tenlop" name="tenlop" maxlength="50" required>
+                            <span class="error-message" id="tenlopError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="khoahoc">Khóa học:</label>
+                            <input type="number" id="khoahoc" name="khoahoc" required>
+                            <span class="error-message" id="khoahocError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gvcn">Giáo viên chủ nhiệm:</label>
+                            <input type="text" id="gvcn" name="gvcn" maxlength="50" required>
+                            <span class="error-message" id="gvcnError"></span>
+                        </div>
+                        
+                        <button type="submit">Gửi dữ liệu</button>
+                    </form>
+                    <div id="formResult" style="margin-top: 20px; font-weight: bold;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="bottom"></div>
+    </div>
+<script>
+    async function loadCommonElements() {
+        const headerResponse = await fetch('common_header.html');
+        document.getElementById('top').innerHTML = await headerResponse.text();
+
+        const navResponse = await fetch('common_navigation_bai2.html');
+        document.getElementById('left').innerHTML = await navResponse.text();
+
+        const footerResponse = await fetch('common_footer.html');
+        document.getElementById('bottom').innerHTML = await footerResponse.text();
+
+        // After loading common elements, apply navigation highlighting and form validation
+        let currentPath = window.location.pathname.split('/').pop();
+        if (currentPath === '') {
+            currentPath = 'index.html';
+        }
+        const navLinks = document.querySelectorAll('#left ul li a');
+
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (currentPath === linkPath || (currentPath.startsWith('example') && currentPath.endsWith('.html') && linkPath === 'example_list.html') || (currentPath.startsWith('test') && currentPath.endsWith('.html') && linkPath === 'quiz_list.html') || (currentPath.startsWith('form_lop.html') && linkPath === 'form_lop.html') || (currentPath.startsWith('form_hoso.html') && linkPath === 'form_hoso.html')) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        // Form validation logic
+        const form = document.getElementById('lopForm');
+        const formResult = document.getElementById('formResult');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            let isValid = true;
+            formResult.innerHTML = ''; // Clear previous results
+
+            // Validate MALOP
+            const malopInput = document.getElementById('malop');
+            const malopError = document.getElementById('malopError');
+            if (malopInput.value.trim() === '') {
+                malopError.textContent = "Mã lớp không được để trống.";
+                isValid = false;
+            } else if (malopInput.value.trim().length !== 6) {
+                malopError.textContent = "Mã lớp phải có đúng 6 ký tự.";
+                isValid = false;
+            } else {
+                malopError.textContent = '';
+            }
+
+            // Validate TENLOP
+            const tenlopInput = document.getElementById('tenlop');
+            const tenlopError = document.getElementById('tenlopError');
+            if (tenlopInput.value.trim() === '') {
+                tenlopError.textContent = "Tên lớp không được để trống.";
+                isValid = false;
+            } else if (tenlopInput.value.trim().length > 50) {
+                tenlopError.textContent = "Tên lớp không được vượt quá 50 ký tự.";
+                isValid = false;
+            } else {
+                tenlopError.textContent = '';
+            }
+
+            // Validate KHOAHOC
+            const khoahocInput = document.getElementById('khoahoc');
+            const khoahocError = document.getElementById('khoahocError');
+            const khoahocValue = parseInt(khoahocInput.value.trim());
+            if (khoahocInput.value.trim() === '') {
+                khoahocError.textContent = "Khóa học không được để trống.";
+                isValid = false;
+            } else if (isNaN(khoahocValue)) {
+                khoahocError.textContent = "Khóa học phải là một số nguyên.";
+                isValid = false;
+            } else {
+                khoahocError.textContent = '';
+            }
+
+            // Validate GVCN
+            const gvcnInput = document.getElementById('gvcn');
+            const gvcnError = document.getElementById('gvcnError');
+            if (gvcnInput.value.trim() === '') {
+                gvcnError.textContent = "Giáo viên chủ nhiệm không được để trống.";
+                isValid = false;
+            } else if (gvcnInput.value.trim().length > 50) {
+                gvcnError.textContent = "Tên giáo viên chủ nhiệm không được vượt quá 50 ký tự.";
+                isValid = false;
+            } else {
+                gvcnError.textContent = '';
+            }
+
+            if (isValid) {
+                formResult.style.color = 'green';
+                formResult.innerHTML = `<h3>Dữ liệu đã nhập hợp lệ:</h3>
+                                        <p><b>Mã lớp:</b> ${malopInput.value.trim()}</p>
+                                        <p><b>Tên lớp:</b> ${tenlopInput.value.trim()}</p>
+                                        <p><b>Khóa học:</b> ${khoahocValue}</p>
+                                        <p><b>GVCN:</b> ${gvcnInput.value.trim()}</p>`;
+            } else {
+                formResult.style.color = 'red';
+                formResult.textContent = "Vui lòng kiểm tra lại các trường bị lỗi.";
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCommonElements);
+</script>
+<style>
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="number"] {
+        width: calc(100% - 22px); /* Account for padding and border */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    .form-group .error-message {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 5px;
+        display: block;
+    }
+    button[type="submit"] {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+    }
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+</body>
+</html>

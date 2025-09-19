@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="utf-8">
-    <title>Trang chủ</title>
+    <title>Câu 7. Ví dụ sử dụng prompt</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
 </head>
@@ -14,9 +14,27 @@
             <div id="left"></div>
             
             <div id="center">
-                <p class="content-header">This is a header</p>
-                <p>This is a paragraph</p>
-                <p>This is another paragraph</p>
+                <p class="content-header">Câu 7. Ví dụ sử dụng prompt</p>
+                <div class="content-text">
+                    <p>Hàm <code>prompt()</code> trong JavaScript được sử dụng để hiển thị một hộp thoại cho phép người dùng nhập dữ liệu. Dữ liệu nhập vào sẽ được trả về dưới dạng chuỗi.</p>
+                    <p>Nhấn nút bên dưới, sau đó nhập tên của bạn vào hộp thoại và nhấn OK để xem lời chào.</p>
+                    <button onclick="showPromptBox()">Hiển thị hộp thoại nhập liệu</button>
+                    <p id="promptResult" style="margin-top: 20px; font-weight: bold;"></p>
+                </div>
+                <script type="text/javascript">
+                    function showPromptBox() {
+                        let promptResultElement = document.getElementById('promptResult');
+                        let name = prompt("Vui lòng nhập tên của bạn:", "Khách"); // Giá trị mặc định là "Khách"
+
+                        if (name !== null && name.trim() !== "") {
+                            promptResultElement.textContent = "Xin chào, " + name + "! Chúc một ngày tốt lành!";
+                        } else if (name === null) {
+                            promptResultElement.textContent = "Bạn đã hủy bỏ việc nhập tên.";
+                        } else {
+                            promptResultElement.textContent = "Bạn chưa nhập tên. Vui lòng thử lại.";
+                        }
+                    }
+                </script>
             </div>
         </div>
         
@@ -27,7 +45,7 @@
         const headerResponse = await fetch('common_header.html');
         document.getElementById('top').innerHTML = await headerResponse.text();
 
-        const navResponse = await fetch('common_navigation_bai1.html');
+        const navResponse = await fetch('common_navigation_bai2.html');
         document.getElementById('left').innerHTML = await navResponse.text();
 
         const footerResponse = await fetch('common_footer.html');

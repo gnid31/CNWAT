@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.11. Hình người que nhảy múa</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="top"></div>
+    
+    <div id="middle">
+        <div id="left"></div>
+        
+        <div id="center">
+            <h1 class="content-header">2.11. Hình người que nhảy múa</h1>
+            <div class="stick-figure-container">
+                <div class="controls">
+                    <button id="jumpButton">Jump</button>
+                    <button id="stopButton">Stop</button>
+                </div>
+                <div class="figure-container">
+                    <img id="mainFigure" class="stick-figure main-figure" src="images/stick1.jpg" height="400" alt="Stick Figure">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="bottom"></div>
+
+    <script>
+        async function loadCommonElements() {
+            try {
+                console.log('Loading common elements for stick_figure.html');
+                const [headerResponse, navigationResponse, footerResponse] = await Promise.all([
+                    fetch('common_header.html'),
+                    fetch('common_navigation_bai2.html'),
+                    fetch('common_footer.html')
+                ]);
+
+                if (!headerResponse.ok) console.error('Failed to load common_header.html:', headerResponse.statusText);
+                if (!navigationResponse.ok) console.error('Failed to load common_navigation.html:', navigationResponse.statusText);
+                if (!footerResponse.ok) console.error('Failed to load common_footer.html:', footerResponse.statusText);
+
+                document.getElementById('top').innerHTML = headerResponse.ok ? await headerResponse.text() : '';
+                document.getElementById('left').innerHTML = navigationResponse.ok ? await navigationResponse.text() : '';
+                document.getElementById('bottom').innerHTML = footerResponse.ok ? await footerResponse.text() : '';
+
+                // Highlight active navigation link
+                const currentPath = window.location.pathname.split('/').pop();
+                const navLinks = document.querySelectorAll('#left ul li a');
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === currentPath) {
+                        link.classList.add('active');
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading common elements:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCommonElements);
+
+        // Stick figure animation logic will go here
+        const figures = [
+            "images/stick1.jpg",
+            "images/stick2.jpg",
+            "images/stick3.jpg",
+            "images/stick4.jpg"
+        ];
+        let currentFigureIndex = 0;
+        let animationInterval;
+
+        const mainFigure = document.getElementById('mainFigure');
+        const jumpButton = document.getElementById('jumpButton');
+        const stopButton = document.getElementById('stopButton');
+
+        function startAnimation() {
+            if (animationInterval) {
+                clearInterval(animationInterval);
+            }
+            animationInterval = setInterval(() => {
+                currentFigureIndex = (currentFigureIndex + 1) % figures.length;
+                mainFigure.src = figures[currentFigureIndex];
+            }, 350); // Change figure every 200ms
+        }
+
+        function stopAnimation() {
+            clearInterval(animationInterval);
+            animationInterval = null;
+        }
+
+        jumpButton.addEventListener('click', startAnimation);
+        stopButton.addEventListener('click', stopAnimation);
+
+        // Preload images
+        figures.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
+    </script>
+</body>
+</html>

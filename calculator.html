@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>2.10. Máy tính</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+    <style>
+        .calculator-container {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            width: 300px; /* Fixed width for the calculator */
+            margin-left: auto; /* Center the calculator */
+            margin-right: auto;
+        }
+        .calculator-display {
+            width: calc(100% - 20px);
+            height: 40px;
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            font-size: 1.5em;
+            text-align: right;
+            border: 1px solid #999;
+            border-radius: 4px;
+            background-color: #e8e8e8;
+            box-sizing: border-box;
+        }
+        .calculator-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 columns */
+            gap: 10px;
+        }
+        .calculator-button {
+            padding: 15px;
+            font-size: 1.2em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        .calculator-button:hover {
+            background-color: #e0f7fa; /* Light blue on hover */
+        }
+        .calculator-button.operator {
+            background-color: #bbdefb; /* Light blue for operators */
+        }
+        .calculator-button.clear {
+            background-color: #ffcdd2; /* Light red for clear buttons */
+        }
+        .calculator-button.equals {
+            background-color: #a5d6a7; /* Light green for equals */
+        }
+        .calculator-button.zero {
+        }
+        /* No need for empty class if we arrange grid precisely */
+    </style>
+</head>
+<body>
+    <div id="main-container">
+        <div id="top"></div>
+        
+        <div id="middle">
+            <div id="left"></div>
+            
+            <div id="center">
+                <p class="content-header">2.10. Máy tính</p>
+                <div class="calculator-container">
+                    <input type="text" id="display" class="calculator-display" value="0" disabled>
+                    <div class="calculator-buttons">
+                        <!-- Row 1 -->
+                        <button class="calculator-button clear" data-action="clear">C</button>
+                        <button class="calculator-button clear" data-action="clearEntry">CE</button>
+                        <button class="calculator-button operator" data-action="negate">+/-</button>
+                        <button class="calculator-button operator" data-action="percentage">%</button>
+
+                        <!-- Row 2 -->
+                        <button class="calculator-button" data-value="7">7</button>
+                        <button class="calculator-button" data-value="8">8</button>
+                        <button class="calculator-button" data-value="9">9</button>
+                        <button class="calculator-button operator" data-action="add">+</button>
+
+                        <!-- Row 3 -->
+                        <button class="calculator-button" data-value="4">4</button>
+                        <button class="calculator-button" data-value="5">5</button>
+                        <button class="calculator-button" data-value="6">6</button>
+                        <button class="calculator-button operator" data-action="subtract">-</button>
+
+                        <!-- Row 4 -->
+                        <button class="calculator-button" data-value="1">1</button>
+                        <button class="calculator-button" data-value="2">2</button>
+                        <button class="calculator-button" data-value="3">3</button>
+                        <button class="calculator-button operator" data-action="multiply">*</button>
+
+                        <!-- Row 5 -->
+                        <button class="calculator-button zero" data-value="0" style="grid-column: span 2;">0</button>
+                        <button class="calculator-button" data-value=".">.</button>
+                        <button class="calculator-button operator" data-action="divide">/</button>
+
+                        <!-- Row 6 (Equals button) -->
+                        <button class="calculator-button equals" data-action="equals" style="grid-column: span 4;">=</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="bottom"></div>
+    </div>
+<script>
+    async function loadCommonElements() {
+        console.log('Attempting to load common elements...');
+        try {
+            const headerResponse = await fetch('common_header.html');
+            if (headerResponse.ok) {
+                const headerContent = await headerResponse.text();
+                document.getElementById('top').innerHTML = headerContent;
+                console.log('Header loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_header.html:', headerResponse.statusText);
+            }
+
+            const navResponse = await fetch('common_navigation_bai2.html');
+            if (navResponse.ok) {
+                const navContent = await navResponse.text();
+                document.getElementById('left').innerHTML = navContent;
+                console.log('Navigation loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_navigation.html:', navResponse.statusText);
+            }
+
+            const footerResponse = await fetch('common_footer.html');
+            if (footerResponse.ok) {
+                const footerContent = await footerResponse.text();
+                document.getElementById('bottom').innerHTML = footerContent;
+                console.log('Footer loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_footer.html:', footerResponse.statusText);
+            }
+
+            let currentPath = window.location.pathname.split('/').pop();
+            if (currentPath === '') {
+                currentPath = 'index.html';
+            }
+            const navLinks = document.querySelectorAll('#left ul li a');
+
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href');
+                if (currentPath === linkPath || (currentPath.startsWith('example') && currentPath.endsWith('.html') && linkPath === 'example_list.html') || (currentPath.startsWith('test') && currentPath.endsWith('.html') && linkPath === 'quiz_list.html') || (currentPath.startsWith('form_lop.html') && linkPath === 'form_lop.html') || (currentPath.startsWith('form_hoso.html') && linkPath === 'form_hoso.html') || (currentPath.startsWith('register.html') && linkPath === 'register.html') || (currentPath.startsWith('personnel_list.html') && linkPath === 'personnel_list.html') || (currentPath.startsWith('admin_menu.html') && linkPath === 'admin_menu.html') || (currentPath.startsWith('dynamic_tabs.html') && linkPath === 'dynamic_tabs.html') || (currentPath.startsWith('tree_view.html') && linkPath === 'tree_view.html') || (currentPath.startsWith('calculator.html') && linkPath === 'calculator.html')) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            console.log('Navigation highlighting applied.');
+        } catch (error) {
+            console.error('Error loading common elements:', error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCommonElements);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const display = document.getElementById('display');
+        const buttons = document.querySelectorAll('.calculator-button');
+        let currentInput = '0';
+        let operator = null;
+        let previousInput = null; // Changed to null to differentiate between 0 and no previous input
+        let resetDisplay = false;
+
+        function updateDisplay() {
+            display.value = currentInput;
+        }
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const value = button.dataset.value;
+                const action = button.dataset.action;
+
+                if (action) {
+                    // Handle actions (operators, clear, equals)
+                    if (action === 'clear') {
+                        currentInput = '0';
+                        operator = null;
+                        previousInput = null;
+                        resetDisplay = false;
+                    } else if (action === 'clearEntry') {
+                        currentInput = '0';
+                    } else if (action === 'negate') {
+                        currentInput = (parseFloat(currentInput) * -1).toString();
+                    } else if (action === 'percentage') {
+                        currentInput = (parseFloat(currentInput) / 100).toString();
+                    } else if (action === 'equals') {
+                        if (operator && previousInput !== null) {
+                            currentInput = operate(previousInput, operator, currentInput);
+                            operator = null;
+                            previousInput = null;
+                            resetDisplay = true;
+                        }
+                    } else { // It's an operator (+, -, *, /)
+                        if (previousInput === null) {
+                            previousInput = currentInput;
+                        } else if (operator) {
+                            // Chain operations: calculate result from previous operation
+                            currentInput = operate(previousInput, operator, currentInput);
+                            previousInput = currentInput; // Set current result as new previous input
+                        }
+                        operator = action;
+                        resetDisplay = true;
+                    }
+                } else { // It's a number or decimal
+                    if (resetDisplay) {
+                        currentInput = value;
+                        resetDisplay = false;
+                    } else {
+                        if (value === '.') {
+                            if (!currentInput.includes('.')) {
+                                currentInput += '.';
+                            }
+                        } else {
+                            // Prevent leading zeros unless it's just '0.'
+                            currentInput = (currentInput === '0' && value !== '.') ? value : currentInput + value;
+                        }
+                    }
+                }
+                updateDisplay();
+            });
+        });
+
+        function operate(num1, op, num2) {
+            num1 = parseFloat(num1);
+            num2 = parseFloat(num2);
+            if (isNaN(num1) || isNaN(num2)) return 'Error';
+
+            switch (op) {
+                case 'add':
+                    return (num1 + num2).toString();
+                case 'subtract':
+                    return (num1 - num2).toString();
+                case 'multiply':
+                    return (num1 * num2).toString();
+                case 'divide':
+                    if (num2 === 0) return 'Error'; // Division by zero
+                    return (num1 / num2).toString();
+                default:
+                    return 'Error';
+            }
+        }
+
+        updateDisplay(); // Set initial display to 0
+    });
+</script>

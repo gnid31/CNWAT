@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>TEST 2 - JavaScript nâng cao</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="main-container">
+        <div id="top"></div>
+        
+        <div id="middle">
+            <div id="left"></div>
+            
+            <div id="center">
+                <p class="content-header">TEST 2 - JavaScript nâng cao</p>
+                <div class="content-text">
+                    <form id="quizForm2">
+                        <h3>Question for TEST 2</h3>
+                        
+                        <p>Which JavaScript keyword is used to declare a variable?</p>
+                        <label>
+                            <input type="radio" name="q1" value="var"> var
+                        </label><br>
+                        <label>
+                            <input type="radio" name="q1" value="let"> let
+                        </label><br>
+                        <label>
+                            <input type="radio" name="q1" value="const"> const
+                        </label><br>
+                        <label>
+                            <input type="radio" name="q1" value="all"> All of the above
+                        </label><br>
+
+                        <p style="margin-top: 20px;">What does DOM stand for?</p>
+                        <label>
+                            <input type="radio" name="q2" value="document_object_model"> Document Object Model
+                        </label><br>
+                        <label>
+                            <input type="radio" name="q2" value="display_order_management"> Display Order Management
+                        </label><br>
+                        <label>
+                            <input type="radio" name="q2" value="digital_optical_modem"> Digital Optical Modem
+                        </label><br>
+                        
+                        <button type="submit" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
+                    </form>
+                    <div id="quizResult2" style="margin-top: 20px; font-weight: bold;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="bottom"></div>
+    </div>
+<script>
+    async function loadCommonElements() {
+        const headerResponse = await fetch('common_header.html');
+        document.getElementById('top').innerHTML = await headerResponse.text();
+
+        const navResponse = await fetch('common_navigation_bai2.html');
+        document.getElementById('left').innerHTML = await navResponse.text();
+
+        const footerResponse = await fetch('common_footer.html');
+        document.getElementById('bottom').innerHTML = await footerResponse.text();
+
+        // After loading common elements, apply navigation highlighting
+        let currentPath = window.location.pathname.split('/').pop();
+        if (currentPath === '') {
+            currentPath = 'index.html';
+        }
+        const navLinks = document.querySelectorAll('#left ul li a');
+
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (currentPath === linkPath || (currentPath.startsWith('example') && currentPath.endsWith('.html') && linkPath === 'example_list.html') || (currentPath.startsWith('test') && currentPath.endsWith('.html') && linkPath === 'quiz_list.html') || (currentPath.startsWith('form_lop.html') && linkPath === 'form_lop.html') || (currentPath.startsWith('form_hoso.html') && linkPath === 'form_hoso.html')) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        // Quiz form 2 submission handler
+        const quizForm2 = document.getElementById('quizForm2');
+        const quizResult2 = document.getElementById('quizResult2');
+
+        quizForm2.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            let q1Answer = quizForm2.elements['q1'].value;
+            let q2Answer = quizForm2.elements['q2'].value;
+
+            let score = 0;
+            let feedback = [];
+
+            if (q1Answer === 'all') {
+                score++;
+                feedback.push("Câu 1: Đúng. Cả var, let, và const đều dùng để khai báo biến.");
+            } else {
+                feedback.push(`Câu 1: Sai. Bạn đã chọn: ${q1Answer}. Đáp án đúng là: All of the above.`);
+            }
+
+            if (q2Answer === 'document_object_model') {
+                score++;
+                feedback.push("Câu 2: Đúng. DOM là Document Object Model.");
+            } else {
+                feedback.push(`Câu 2: Sai. Bạn đã chọn: ${q2Answer}. Đáp án đúng là: Document Object Model.`);
+            }
+
+            quizResult2.innerHTML = `<h3>Kết quả bài thi của bạn:</h3>`;
+            quizResult2.innerHTML += `<p>Điểm của bạn: <b>${score} / 2</b></p>`;
+            quizResult2.innerHTML += `<ul>`;
+            feedback.forEach(item => {
+                quizResult2.innerHTML += `<li>${item}</li>`;
+            });
+            quizResult2.innerHTML += `</ul>`;
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCommonElements);
+</script>
+</body>
+</html>

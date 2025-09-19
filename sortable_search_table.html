@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>2.12 Sắp xếp và Tìm kiếm Bảng</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="main-container">
+        <div id="top"></div>
+        
+        <div id="middle">
+            <div id="left"></div>
+            
+            <div id="center">
+                <h2>2.12. Sắp xếp và Tìm kiếm Bảng</h2>
+                <input type="text" id="searchInput" placeholder="Nhập các từ cần tìm">
+
+                <table id="productTable">
+                    <thead>
+                        <tr>
+                            <th>TT</th>
+                            <th class="sortable" data-col="1">Mã sản phẩm</th>
+                            <th class="sortable" data-col="2">Tên sản phẩm</th>
+                            <th class="sortable" data-col="3">Giá</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>SP001</td>
+                            <td>Laptop Dell XPS 15</td>
+                            <td>25000000</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>SP003</td>
+                            <td>Điện thoại Samsung Galaxy S21</td>
+                            <td>18000000</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>SP002</td>
+                            <td>Máy tính bảng iPad Pro</td>
+                            <td>22000000</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>SP005</td>
+                            <td>Tai nghe Sony WH-1000XM4</td>
+                            <td>7000000</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>SP004</td>
+                            <td>Smartwatch Apple Watch Series 7</td>
+                            <td>12000000</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>SP006</td>
+                            <td>Bàn phím cơ Logitech G Pro</td>
+                            <td>3000000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="bottom"></div>
+    </div>
+<script>
+    async function loadCommonElements() {
+        const headerResponse = await fetch('common_header.html');
+        document.getElementById('top').innerHTML = await headerResponse.text();
+
+        const navResponse = await fetch('common_navigation_bai2.html');
+        document.getElementById('left').innerHTML = await navResponse.text();
+
+        const footerResponse = await fetch('common_footer.html');
+        document.getElementById('bottom').innerHTML = await footerResponse.text();
+
+        // After loading common elements, apply navigation highlighting
+        let currentPath = window.location.pathname.split('/').pop();
+        if (currentPath === '') {
+            currentPath = 'index.html';
+        }
+        const navLinks = document.querySelectorAll('#left ul li a');
+
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (currentPath === linkPath || (currentPath.startsWith('example') && currentPath.endsWith('.html') && linkPath === 'example_list.html') || (currentPath.startsWith('test') && currentPath.endsWith('.html') && linkPath === 'quiz_list.html') || (currentPath.startsWith('form_lop.html') && linkPath === 'form_lop.html') || (currentPath.startsWith('form_hoso.html') && linkPath === 'form_hoso.html')) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCommonElements);
+</script>
+<script src="script.js"></script>
+</body>
+</html>

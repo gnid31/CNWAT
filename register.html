@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>2.5. Đăng ký thành viên</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="main-container">
+        <div id="top"></div>
+        
+        <div id="middle">
+            <div id="left"></div>
+            
+            <div id="center">
+                <p class="content-header">2.5. Đăng ký thành viên</p>
+                <div class="content-text">
+                    <form id="registrationForm">
+                        <div class="form-group">
+                            <label for="hoTen">Họ tên:</label>
+                            <input type="text" id="hoTen" name="hoTen" autofocus class="required-field">
+                            <span class="error-message" id="hoTenError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="diaChi">Địa chỉ:</label>
+                            <input type="text" id="diaChi" name="diaChi">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Giới tính:</label>
+                            <input type="radio" id="genderNam" name="gender" value="Nam" class="required-field"> <label for="genderNam" style="display: inline;">Nam</label>
+                            <input type="radio" id="genderNu" name="gender" value="Nữ" class="required-field"> <label for="genderNu" style="display: inline;">Nữ</label>
+                            <span class="error-message" id="genderError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ngaySinh">Ngày sinh:</label>
+                            <input type="text" id="ngaySinh" name="ngaySinh" placeholder="DD/MM/YYYY" class="required-field">
+                            <span class="error-message" id="ngaySinhError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">E-mail:</label>
+                            <input type="text" id="email" name="email" class="required-field">
+                            <span class="error-message" id="emailError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dienThoai">Điện thoại:</label>
+                            <input type="text" id="dienThoai" name="dienThoai">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Khóa đăng ký:</label>
+                            <input type="checkbox" id="khoaTA" name="khoaDangKy" value="Tiếng Anh"> <label for="khoaTA" style="display: inline;">Tiếng Anh</label>
+                            <input type="checkbox" id="khoaQT" name="khoaDangKy" value="Quản trị"> <label for="khoaQT" style="display: inline;">Quản trị</label>
+                            <input type="checkbox" id="khoaCNTT" name="khoaDangKy" value="CNTT"> <label for="khoaCNTT" style="display: inline;">CNTT</label>
+                            <span class="error-message" id="khoaDangKyError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tenSuDung">Tên sử dụng:</label>
+                            <input type="text" id="tenSuDung" name="tenSuDung" class="required-field">
+                            <span class="error-message" id="tenSuDungError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="matKhau">Mật khẩu:</label>
+                            <input type="password" id="matKhau" name="matKhau" class="required-field">
+                            <span class="error-message" id="matKhauError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="goLaiMatKhau">Gõ lại mật khẩu:</label>
+                            <input type="password" id="goLaiMatKhau" name="goLaiMatKhau" class="required-field">
+                            <span class="error-message" id="goLaiMatKhauError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ghiChu">Ghi chú:</label>
+                            <textarea id="ghiChu" name="ghiChu" rows="4"></textarea>
+                        </div>
+                        
+                        <div class="form-buttons">
+                            <button type="submit" id="chapNhanBtn">Chấp nhận</button>
+                            <button type="button" id="boQuaBtn">Bỏ qua</button>
+                        </div>
+                    </form>
+                    <div id="formSummary" style="margin-top: 20px; padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; border-radius: 8px; display: none;">
+                        <h3>Thông tin đăng ký:</h3>
+                        <pre id="summaryContent"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="bottom"></div>
+    </div>
+<script>
+    async function loadCommonElements() {
+        console.log('Attempting to load common elements...');
+        try {
+            const headerResponse = await fetch('common_header.html');
+            if (headerResponse.ok) {
+                const headerContent = await headerResponse.text();
+                document.getElementById('top').innerHTML = headerContent;
+                console.log('Header loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_header.html:', headerResponse.statusText);
+            }
+
+            const navResponse = await fetch('common_navigation_bai2.html');
+            if (navResponse.ok) {
+                const navContent = await navResponse.text();
+                document.getElementById('left').innerHTML = navContent;
+                console.log('Navigation loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_navigation.html:', navResponse.statusText);
+            }
+
+            const footerResponse = await fetch('common_footer.html');
+            if (footerResponse.ok) {
+                const footerContent = await footerResponse.text();
+                document.getElementById('bottom').innerHTML = footerContent;
+                console.log('Footer loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_footer.html:', footerResponse.statusText);
+            }
+
+            // After loading common elements, apply navigation highlighting
+            let currentPath = window.location.pathname.split('/').pop();
+            if (currentPath === '') {
+                currentPath = 'index.html';
+            }
+            const navLinks = document.querySelectorAll('#left ul li a');
+
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href');
+                if (currentPath === linkPath || (currentPath.startsWith('example') && currentPath.endsWith('.html') && linkPath === 'example_list.html') || (currentPath.startsWith('test') && currentPath.endsWith('.html') && linkPath === 'quiz_list.html') || (currentPath.startsWith('form_lop.html') && linkPath === 'form_lop.html') || (currentPath.startsWith('form_hoso.html') && linkPath === 'form_hoso.html') || (currentPath.startsWith('register.html') && linkPath === 'register.html')) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            console.log('Navigation highlighting applied.');
+        } catch (error) {
+            console.error('Error loading common elements:', error);
+        }
+    }
+
+    // Ensure loadCommonElements runs after the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', loadCommonElements);
+
+    // Initial focus on Họ tên and other validations
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('hoTen').focus();
+
+        // Highlight required fields with blue background
+        document.querySelectorAll('.required-field').forEach(field => {
+            if (field.type === 'radio') {
+                // For radio buttons, apply blue to the container or label if preferred for visibility
+                // For now, we'll assume the validation will handle it, and the blue background is for direct inputs
+            } else {
+                field.style.backgroundColor = '#e0f7fa'; // Light blue
+            }
+        });
+
+        // Event listeners for "Enter to next field"
+        const formInputs = Array.from(document.querySelectorAll('#registrationForm input, #registrationForm select, #registrationForm textarea'));
+        formInputs.forEach((input, index) => {
+            input.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    const nextInput = formInputs[index + 1];
+                    if (nextInput) {
+                        nextInput.focus();
+                    } else {
+                        // If it's the last input, focus on the submit button
+                        document.getElementById('chapNhanBtn').focus();
+                    }
+                }
+            });
+        });
+
+        // Họ tên standardization on blur
+        const hoTenInput = document.getElementById('hoTen');
+        hoTenInput.addEventListener('blur', () => {
+            let name = hoTenInput.value.trim();
+            if (name) {
+                name = name.toLowerCase().split(' ').map(word => {
+                    return word.charAt(0).toUpperCase() + word.slice(1);
+                }).join(' ');
+                hoTenInput.value = name;
+            }
+        });
+
+        // Email validation on blur
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('emailError');
+        const emailRegex = /^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$/;
+        emailInput.addEventListener('blur', () => {
+            if (emailInput.value.trim() === '') {
+                emailError.textContent = "Email không được để trống.";
+            } else if (!emailRegex.test(emailInput.value.trim())) {
+                emailError.textContent = "Email không đúng định dạng (vd: ten.ten@ten.ten).";
+            } else {
+                emailError.textContent = '';
+            }
+        });
+
+        // Ngày sinh auto-format on input
+        const ngaySinhInput = document.getElementById('ngaySinh');
+        ngaySinhInput.addEventListener('input', (event) => {
+            let value = ngaySinhInput.value.replace(/[^0-9]/g, ''); // Remove non-digits
+            if (value.length > 2 && value.charAt(2) !== '/') {
+                value = value.substring(0, 2) + '/' + value.substring(2);
+            }
+            if (value.length > 5 && value.charAt(5) !== '/') {
+                value = value.substring(0, 5) + '/' + value.substring(5);
+            }
+            ngaySinhInput.value = value;
+        });
+
+        // Retype Password check on blur
+        const matKhauInput = document.getElementById('matKhau');
+        const goLaiMatKhauInput = document.getElementById('goLaiMatKhau');
+        const goLaiMatKhauError = document.getElementById('goLaiMatKhauError');
+        goLaiMatKhauInput.addEventListener('blur', () => {
+            if (goLaiMatKhauInput.value !== matKhauInput.value) {
+                goLaiMatKhauError.textContent = "Mật khẩu gõ lại không đúng.";
+            } else {
+                goLaiMatKhauError.textContent = '';
+            }
+        });
+
+        // Form submission validation
+        const registrationForm = document.getElementById('registrationForm');
+        const formSummary = document.getElementById('formSummary');
+        const summaryContent = document.getElementById('summaryContent');
+        const requiredFields = document.querySelectorAll('.required-field'); // All fields marked as required
+
+        registrationForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            let isValid = true;
+            let formData = {};
+
+            // Clear all previous error messages
+            document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
+            formSummary.style.display = 'none';
+
+
+            // General check for all required fields
+            requiredFields.forEach(field => {
+                if (field.type === 'radio') {
+                    const radioGroupName = field.name;
+                    const radioGroup = document.querySelectorAll(`input[name="${radioGroupName}"]`);
+                    const isAnyRadioSelected = Array.from(radioGroup).some(radio => radio.checked);
+                    if (!isAnyRadioSelected) {
+                        document.getElementById(`${radioGroupName}Error`).textContent = `Vui lòng chọn ${radioGroupName === 'gender' ? 'giới tính' : 'khóa đăng ký'}.`;
+                        isValid = false;
+                    }
+                } else if (field.value.trim() === '') {
+                    document.getElementById(`${field.id}Error`).textContent = `Trường ${field.id} không được để trống.`;
+                    isValid = false;
+                }
+            });
+
+            // Specific validation re-checks (Email and Password)
+            if (emailInput.value.trim() !== '' && !emailRegex.test(emailInput.value.trim())) {
+                emailError.textContent = "Email không đúng định dạng (vd: ten.ten@ten.ten).";
+                isValid = false;
+            }
+
+            if (matKhauInput.value.trim() !== '' && goLaiMatKhauInput.value.trim() !== '' && goLaiMatKhauInput.value !== matKhauInput.value) {
+                goLaiMatKhauError.textContent = "Mật khẩu gõ lại không đúng.";
+                isValid = false;
+            }
+
+            // Ngày sinh validation
+            const ngaySinhValue = ngaySinhInput.value.trim();
+            const ngaySinhError = document.getElementById('ngaySinhError');
+            const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+            if (ngaySinhValue === '') {
+                ngaySinhError.textContent = "Ngày sinh không được để trống.";
+                isValid = false;
+            } else if (!dateRegex.test(ngaySinhValue)) {
+                ngaySinhError.textContent = "Ngày sinh không đúng định dạng DD/MM/YYYY.";
+                isValid = false;
+            } else {
+                // Further date validity check (optional but good practice)
+                const parts = ngaySinhValue.split('/');
+                const day = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10);
+                const year = parseInt(parts[2], 10);
+                const date = new Date(year, month - 1, day); // Month is 0-indexed
+                if (date.getFullYear() !== year || date.getMonth() + 1 !== month || date.getDate() !== day) {
+                    ngaySinhError.textContent = "Ngày sinh không hợp lệ.";
+                    isValid = false;
+                }
+            }
+
+
+            if (isValid) {
+                formSummary.style.display = 'block';
+                formData = {
+                    "Họ tên": hoTenInput.value.trim(),
+                    "Địa chỉ": document.getElementById('diaChi').value.trim(),
+                    "Giới tính": document.querySelector('input[name="gender"]:checked') ? document.querySelector('input[name="gender"]:checked').value : 'Chưa chọn',
+                    "Ngày sinh": ngaySinhInput.value.trim(),
+                    "E-mail": emailInput.value.trim(),
+                    "Điện thoại": document.getElementById('dienThoai').value.trim(),
+                    "Khóa đăng ký": Array.from(document.querySelectorAll('input[name="khoaDangKy"]:checked')).map(cb => cb.value).join(', ') || 'Chưa chọn',
+                    "Tên sử dụng": document.getElementById('tenSuDung').value.trim(),
+                    "Mật khẩu": "********", // Never display actual password
+                    "Ghi chú": document.getElementById('ghiChu').value.trim()
+                };
+                summaryContent.textContent = JSON.stringify(formData, null, 2); // Pretty print JSON
+            } else {
+                formSummary.style.display = 'none';
+            }
+        });
+
+        // Reset form on "Bỏ qua" button click
+        document.getElementById('boQuaBtn').addEventListener('click', () => {
+            registrationForm.reset();
+            document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
+            formSummary.style.display = 'none';
+            hoTenInput.focus(); // Set focus back to Họ tên
+        });
+    });
+</script>
+<style>
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: inline-block; /* Changed to inline-block for better alignment with shorter labels */
+        width: 120px; /* Fixed width for labels */
+        margin-bottom: 5px;
+        font-weight: bold;
+        vertical-align: top; /* Align label to the top for textarea */
+        padding-top: 5px; /* Adjust padding for alignment */
+    }
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"],
+    .form-group input[type="number"],
+    .form-group input[type="date"],
+    .form-group textarea {
+        width: calc(100% - 130px); /* Account for label width + padding/margin */
+        padding: 8px 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        display: inline-block; /* Ensure it stays next to the label */
+        vertical-align: top; /* Align input with label */
+    }
+    .form-group input[type="radio"],
+    .form-group input[type="checkbox"] {
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+    .form-group label[for="genderNam"],
+    .form-group label[for="genderNu"],
+    .form-group label[for="khoaTA"],
+    .form-group label[for="khoaQT"],
+    .form-group label[for="khoaCNTT"] {
+        width: auto; /* Allow these labels to take natural width */
+        font-weight: normal;
+        margin-right: 15px; /* Space between radio/checkbox labels */
+        vertical-align: middle;
+    }
+    .form-group .error-message {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 5px;
+        margin-left: 125px; /* Align error message with input fields */
+        display: block;
+    }
+    /* Styling for blue background on required fields */
+    .required-field {
+        background-color: #e0f7fa; /* Light blue */
+    }
+    .form-buttons {
+        margin-top: 20px;
+        text-align: left; /* Align buttons to the left */
+        margin-left: 125px; /* Align buttons with input fields */
+    }
+    .form-buttons button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+        margin-right: 10px;
+    }
+    .form-buttons button:hover {
+        background-color: #0056b3;
+    }
+    /* Specific adjustment for radio/checkbox groups */
+    .form-group label:first-child { /* Targets the main label for "Giới tính" and "Khóa đăng ký" */
+        vertical-align: middle;
+    }
+</style>

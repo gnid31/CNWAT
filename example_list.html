@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="utf-8">
-    <title>Trang chủ</title>
+    <title>2.1. Ví dụ</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
 </head>
@@ -14,9 +14,24 @@
             <div id="left"></div>
             
             <div id="center">
-                <p class="content-header">This is a header</p>
-                <p>This is a paragraph</p>
-                <p>This is another paragraph</p>
+                <p class="content-header">2.1. Các ví dụ JavaScript</p>
+                   <ul style="list-style-type:none; padding-left:0;">
+                    <li><a href="example1.html">Câu 1. Ví dụ sử dụng biến trong JS</a></li>
+                    <li><a href="example2.html">Câu 2. Ví dụ sử dụng Textbox và Chương trình con</a></li>
+                    <li><a href="example3.html">Câu 3. Ví dụ sử dụng câu lệnh IF</a></li>
+                    <li><a href="example4.html">Câu 4. Ví dụ sử dụng đối tượng ngày tháng năm trong JS</a></li>
+                    <li><a href="example5.html">Câu 5. Ví dụ sử dụng câu lệnh switch</a></li>
+                    <li><a href="example6.html">Câu 6. Ví dụ sử dụng confirm</a></li>
+                    <li><a href="example7.html">Câu 7. Ví dụ sử dụng prompt</a></li>
+                    <li><a href="example8.html">Câu 8. Ví dụ sử dụng kiểu String</a></li>
+                    <li><a href="example9.html">Câu 9. Ví dụ sử dụng kiểu ARRAY</a></li>
+                    <li><a href="example10.html">Câu 10. Ví dụ sử dụng kiểu thiết lập thời gian</a></li>
+                    <li><a href="example11.html">Câu 11. Ví dụ khác về cách sử dụng thiết lập thời gian</a></li>
+                    <li><a href="example12.html">Câu 12. Đồng hồ</a></li>
+                    <li><a href="example13.html">Câu 13. Hiệu ứng ảnh</a></li>
+                    <li><a href="example14.html">Câu 14. Sử dụng Select … option</a></li>
+                    <li><a href="sortable_search_table.html">Câu 15. Sắp xếp và Tìm kiếm Bảng</a></li>
+                </ul>
             </div>
         </div>
         
@@ -27,7 +42,7 @@
         const headerResponse = await fetch('common_header.html');
         document.getElementById('top').innerHTML = await headerResponse.text();
 
-        const navResponse = await fetch('common_navigation_bai1.html');
+        const navResponse = await fetch('common_navigation_bai2.html');
         document.getElementById('left').innerHTML = await navResponse.text();
 
         const footerResponse = await fetch('common_footer.html');

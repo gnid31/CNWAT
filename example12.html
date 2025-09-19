@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>Câu 12. Đồng hồ</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="main-container">
+        <div id="top"></div>
+        
+        <div id="middle">
+            <div id="left"></div>
+            
+            <div id="center">
+                <p class="content-header">Câu 12. Đồng hồ</p>
+                <div class="content-text">
+                    <p>Ví dụ này sử dụng hàm <code>setTimeout()</code> kết hợp với đối tượng <code>Date</code> của JavaScript để tạo một đồng hồ số hoạt động liên tục.</p>
+                    <p>Đồng hồ sẽ tự động cập nhật mỗi 500 mili giây (nửa giây) để hiển thị thời gian hiện tại.</p>
+                    <div id="clockDisplay" style="margin-top: 20px; padding: 20px; border: 2px solid #007bff; border-radius: 10px; background-color: #e6f7ff; font-family: 'Roboto Mono', monospace; font-size: 3em; text-align: center; color: #007bff; box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2); width: fit-content; margin-left: auto; margin-right: auto;"></div>
+                </div>
+                <script type="text/javascript">
+                    function startTime() {
+                        let today = new Date();
+                        let h = today.getHours();
+                        let m = today.getMinutes();
+                        let s = today.getSeconds();
+                        
+                        // Hàm bổ trợ để thêm số 0 đằng trước nếu số nhỏ hơn 10
+                        function checkTime(i) {
+                            if (i < 10) { i = "0" + i; }
+                            return i;
+                        }
+
+                        m = checkTime(m);
+                        s = checkTime(s);
+                        document.getElementById('clockDisplay').innerHTML = h + ":" + m + ":" + s;
+                        
+                        // Cập nhật đồng hồ mỗi 500ms
+                        setTimeout(startTime, 500);
+                    }
+                    // Khởi động đồng hồ khi trang web tải xong
+                    document.addEventListener('DOMContentLoaded', startTime);
+                </script>
+            </div>
+        </div>
+        
+        <div id="bottom"></div>
+    </div>
+<script>
+    async function loadCommonElements() {
+        const headerResponse = await fetch('common_header.html');
+        document.getElementById('top').innerHTML = await headerResponse.text();
+
+        const navResponse = await fetch('common_navigation_bai2.html');
+        document.getElementById('left').innerHTML = await navResponse.text();
+
+        const footerResponse = await fetch('common_footer.html');
+        document.getElementById('bottom').innerHTML = await footerResponse.text();
+
+        // After loading common elements, apply navigation highlighting
+        let currentPath = window.location.pathname.split('/').pop();
+        if (currentPath === '') {
+            currentPath = 'index.html';
+        }
+        const navLinks = document.querySelectorAll('#left ul li a');
+
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (currentPath === linkPath || (currentPath.startsWith('example') && currentPath.endsWith('.html') && linkPath === 'example_list.html') || (currentPath.startsWith('test') && currentPath.endsWith('.html') && linkPath === 'quiz_list.html') || (currentPath.startsWith('form_lop.html') && linkPath === 'form_lop.html') || (currentPath.startsWith('form_hoso.html') && linkPath === 'form_hoso.html')) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCommonElements);
+</script>
+</body>
+</html>

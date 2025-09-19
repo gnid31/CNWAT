@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="utf-8">
-    <title>Trang chủ</title>
+    <title>Câu 10. Ví dụ sử dụng kiểu thiết lập thời gian</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
 </head>
@@ -14,9 +14,23 @@
             <div id="left"></div>
             
             <div id="center">
-                <p class="content-header">This is a header</p>
-                <p>This is a paragraph</p>
-                <p>This is another paragraph</p>
+                <p class="content-header">Câu 10. Ví dụ sử dụng kiểu thiết lập thời gian (setTimeout)</p>
+                <div class="content-text">
+                    <p>Hàm <code>setTimeout()</code> trong JavaScript được sử dụng để thực thi một chức năng hoặc một đoạn mã sau một khoảng thời gian chờ nhất định (được tính bằng mili giây).</p>
+                    <p>Nhấn nút bên dưới để hiển thị một thông báo sau 3 giây.</p>
+                    <button onclick="showDelayedAlert()">Hiển thị thông báo sau 3 giây</button>
+                    <p id="timerOutput" style="margin-top: 20px; font-weight: bold;"></p>
+                </div>
+                <script type="text/javascript">
+                    function showDelayedAlert() {
+                        let timerOutputElement = document.getElementById('timerOutput');
+                        timerOutputElement.textContent = "Thông báo sẽ hiện sau 3 giây...";
+                        setTimeout(function() {
+                            alert("Đây là thông báo sau 3 giây!");
+                            timerOutputElement.textContent = "Thông báo đã hiển thị!";
+                        }, 3000); // 3000 mili giây = 3 giây
+                    }
+                </script>
             </div>
         </div>
         
@@ -27,7 +41,7 @@
         const headerResponse = await fetch('common_header.html');
         document.getElementById('top').innerHTML = await headerResponse.text();
 
-        const navResponse = await fetch('common_navigation_bai1.html');
+        const navResponse = await fetch('common_navigation_bai2.html');
         document.getElementById('left').innerHTML = await navResponse.text();
 
         const footerResponse = await fetch('common_footer.html');

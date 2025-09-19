@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>Câu 5. Ví dụ sử dụng câu lệnh switch</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="main-container">
+        <div id="top"></div>
+        
+        <div id="middle">
+            <div id="left"></div>
+            
+            <div id="center">
+                <p class="content-header">Câu 5. Ví dụ sử dụng câu lệnh switch</p>
+                <div class="content-text">
+                    <p>Câu lệnh <code>switch</code> trong JavaScript được sử dụng để thực thi các khối mã khác nhau dựa trên các giá trị khác nhau của một biến. Nó là một cách hiệu quả để thay thế nhiều câu lệnh <code>if...else if</code>.</p>
+                    <p>Nhấn nút bên dưới để hiển thị ngày hiện tại trong tuần và một lời nhắn tương ứng.</p>
+                    <button onclick="displayDayOfWeek()">Hiển thị ngày</button>
+                    <p id="dayOfWeekOutput" style="margin-top: 20px; font-weight: bold; font-size: 1.2em;"></p>
+                </div>
+                <script type="text/javascript">
+                    function displayDayOfWeek() {
+                        let d = new Date();
+                        let theDay = d.getDay(); // Lấy ngày trong tuần (0-Chủ Nhật, 1-Thứ Hai, ..., 6-Thứ Bảy)
+                        let dayOfWeekOutput = document.getElementById('dayOfWeekOutput');
+                        let message = "";
+
+                        switch (theDay) {
+                            case 0:
+                                message = "Hôm nay là Chủ Nhật! Chúc bạn cuối tuần vui vẻ!";
+                                break;
+                            case 1:
+                                message = "Hôm nay là Thứ Hai! Chúc bạn một tuần làm việc hiệu quả!";
+                                break;
+                            case 2:
+                                message = "Hôm nay là Thứ Ba! Năng lượng tràn đầy!";
+                                break;
+                            case 3:
+                                message = "Hôm nay là Thứ Tư! Giữa tuần rồi!";
+                                break;
+                            case 4:
+                                message = "Hôm nay là Thứ Năm! Sắp cuối tuần rồi!";
+                                break;
+                            case 5:
+                                message = "Hôm nay là Thứ Sáu! Chúc mừng cuối tuần!";
+                                break;
+                            case 6:
+                                message = "Hôm nay là Thứ Bảy! Tận hưởng ngày nghỉ!";
+                                break;
+                            default:
+                                message = "Không xác định được ngày trong tuần.";
+                        }
+                        dayOfWeekOutput.textContent = message;
+                    }
+                </script>
+            </div>
+        </div>
+        
+        <div id="bottom"></div>
+    </div>
+<script>
+    async function loadCommonElements() {
+        const headerResponse = await fetch('common_header.html');
+        document.getElementById('top').innerHTML = await headerResponse.text();
+
+        const navResponse = await fetch('common_navigation_bai2.html');
+        document.getElementById('left').innerHTML = await navResponse.text();
+
+        const footerResponse = await fetch('common_footer.html');
+        document.getElementById('bottom').innerHTML = await footerResponse.text();
+
+        // After loading common elements, apply navigation highlighting
+        let currentPath = window.location.pathname.split('/').pop();
+        if (currentPath === '') {
+            currentPath = 'index.html';
+        }
+        const navLinks = document.querySelectorAll('#left ul li a');
+
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (currentPath === linkPath || (currentPath.startsWith('example') && currentPath.endsWith('.html') && linkPath === 'example_list.html') || (currentPath.startsWith('test') && currentPath.endsWith('.html') && linkPath === 'quiz_list.html') || (currentPath.startsWith('form_lop.html') && linkPath === 'form_lop.html') || (currentPath.startsWith('form_hoso.html') && linkPath === 'form_hoso.html')) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCommonElements);
+</script>
+</body>
+</html>

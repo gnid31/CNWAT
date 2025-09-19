@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>Câu 11. Ví dụ khác về cách sử dụng thiết lập thời gian</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="main-container">
+        <div id="top"></div>
+        
+        <div id="middle">
+            <div id="left"></div>
+            
+            <div id="center">
+                <p class="content-header">Câu 11. Ví dụ khác về cách sử dụng thiết lập thời gian (setTimeout)</p>
+                <div class="content-text">
+                    <p>Ngoài việc hiển thị thông báo, <code>setTimeout()</code> còn có thể được dùng để cập nhật nội dung các phần tử HTML sau một khoảng thời gian.</p>
+                    <p>Nhấn nút bên dưới để xem ví dụ về việc thay đổi văn bản trong một ô input sau các khoảng thời gian khác nhau.</p>
+                    <button onclick="runTimedTextExample()">Hiển thị văn bản theo thời gian</button>
+                    <input type="text" id="timedTextInput" value="Chờ đợi..." style="margin-left: 10px; padding: 8px; border: 1px solid #ccc; border-radius: 5px; width: 200px;">
+                    <p id="timedTextStatus" style="margin-top: 20px; font-weight: bold;"></p>
+                </div>
+                <script type="text/javascript">
+                    function runTimedTextExample() {
+                        let textInput = document.getElementById('timedTextInput');
+                        let statusOutput = document.getElementById('timedTextStatus');
+                        textInput.value = "Đang bắt đầu...";
+                        statusOutput.textContent = "Đang đếm ngược...";
+
+                        // Thay đổi văn bản sau 2 giây
+                        setTimeout(function() {
+                            textInput.value = "2 giây đã trôi qua!";
+                            statusOutput.textContent = "Đã cập nhật sau 2 giây.";
+                        }, 2000);
+
+                        // Thay đổi văn bản sau 4 giây
+                        setTimeout(function() {
+                            textInput.value = "4 giây đã trôi qua!";
+                            statusOutput.textContent = "Đã cập nhật sau 4 giây.";
+                        }, 4000);
+
+                        // Thay đổi văn bản sau 6 giây
+                        setTimeout(function() {
+                            textInput.value = "6 giây đã trôi qua!";
+                            statusOutput.textContent = "Đã hoàn thành sau 6 giây!";
+                        }, 6000);
+                    }
+                </script>
+            </div>
+        </div>
+        
+        <div id="bottom"></div>
+    </div>
+<script>
+    async function loadCommonElements() {
+        const headerResponse = await fetch('common_header.html');
+        document.getElementById('top').innerHTML = await headerResponse.text();
+
+        const navResponse = await fetch('common_navigation_bai2.html');
+        document.getElementById('left').innerHTML = await navResponse.text();
+
+        const footerResponse = await fetch('common_footer.html');
+        document.getElementById('bottom').innerHTML = await footerResponse.text();
+
+        // After loading common elements, apply navigation highlighting
+        let currentPath = window.location.pathname.split('/').pop();
+        if (currentPath === '') {
+            currentPath = 'index.html';
+        }
+        const navLinks = document.querySelectorAll('#left ul li a');
+
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (currentPath === linkPath || (currentPath.startsWith('example') && currentPath.endsWith('.html') && linkPath === 'example_list.html') || (currentPath.startsWith('test') && currentPath.endsWith('.html') && linkPath === 'quiz_list.html') || (currentPath.startsWith('form_lop.html') && linkPath === 'form_lop.html') || (currentPath.startsWith('form_hoso.html') && linkPath === 'form_hoso.html')) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCommonElements);
+</script>
+</body>
+</html>

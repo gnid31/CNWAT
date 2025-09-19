@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>2.6. Danh sách nhân sự</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="main-container">
+        <div id="top"></div>
+        
+        <div id="middle">
+            <div id="left"></div>
+            
+            <div id="center">
+                <p class="content-header">2.6. Danh sách nhân sự</p>
+                <div class="content-text">
+                    <table id="personnelTable">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="masterCheckbox"></th>
+                                <th>Họ tên</th>
+                                <th>Ngày sinh</th>
+                                <th>Giới tính</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-row-id="1">
+                                <td><input type="checkbox" class="rowCheckbox"></td>
+                                <td>Hoàng Thị Thảo</td>
+                                <td>23/6/1990</td>
+                                <td>Nữ</td>
+                            </tr>
+                            <tr data-row-id="2">
+                                <td><input type="checkbox" class="rowCheckbox"></td>
+                                <td>Ngô Mạng Quân</td>
+                                <td>14/4/1992</td>
+                                <td>Nam</td>
+                            </tr>
+                            <tr data-row-id="3">
+                                <td><input type="checkbox" class="rowCheckbox"></td>
+                                <td>Nguyễn Thanh Tùng</td>
+                                <td>27/9/1991</td>
+                                <td>Nam</td>
+                            </tr>
+                            <tr data-row-id="4">
+                                <td><input type="checkbox" class="rowCheckbox"></td>
+                                <td>Hoàng Thị Ngân</td>
+                                <td>12/12/1992</td>
+                                <td>Nữ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div id="bottom"></div>
+    </div>
+<script>
+    async function loadCommonElements() {
+        console.log('Attempting to load common elements...');
+        try {
+            const headerResponse = await fetch('common_header.html');
+            if (headerResponse.ok) {
+                const headerContent = await headerResponse.text();
+                document.getElementById('top').innerHTML = headerContent;
+                console.log('Header loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_header.html:', headerResponse.statusText);
+            }
+
+            const navResponse = await fetch('common_navigation_bai2.html');
+            if (navResponse.ok) {
+                const navContent = await navResponse.text();
+                document.getElementById('left').innerHTML = navContent;
+                console.log('Navigation loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_navigation.html:', navResponse.statusText);
+            }
+
+            const footerResponse = await fetch('common_footer.html');
+            if (footerResponse.ok) {
+                const footerContent = await footerResponse.text();
+                document.getElementById('bottom').innerHTML = footerContent;
+                console.log('Footer loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_footer.html:', footerResponse.statusText);
+            }
+
+            let currentPath = window.location.pathname.split('/').pop();
+            if (currentPath === '') {
+                currentPath = 'index.html';
+            }
+            const navLinks = document.querySelectorAll('#left ul li a');
+
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href');
+                if (currentPath === linkPath || (currentPath.startsWith('example') && currentPath.endsWith('.html') && linkPath === 'example_list.html') || (currentPath.startsWith('test') && currentPath.endsWith('.html') && linkPath === 'quiz_list.html') || (currentPath.startsWith('form_lop.html') && linkPath === 'form_lop.html') || (currentPath.startsWith('form_hoso.html') && linkPath === 'form_hoso.html') || (currentPath.startsWith('register.html') && linkPath === 'register.html') || (currentPath.startsWith('personnel_list.html') && linkPath === 'personnel_list.html')) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            console.log('Navigation highlighting applied.');
+        } catch (error) {
+            console.error('Error loading common elements:', error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCommonElements);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const masterCheckbox = document.getElementById('masterCheckbox');
+        const rowCheckboxes = document.querySelectorAll('.rowCheckbox');
+        const personnelTable = document.getElementById('personnelTable');
+
+        // Function to update row background based on checkbox state
+        function updateRowHighlight(checkbox) {
+            const row = checkbox.closest('tr');
+            if (checkbox.checked) {
+                row.style.backgroundColor = '#ffe0b2'; // Yellowish color
+            } else {
+                // Revert to alternating color based on row index
+                const rowIndex = Array.from(row.parentNode.children).indexOf(row);
+                row.style.backgroundColor = rowIndex % 2 === 0 ? '#e0e0e0' : '#f0f0f0'; // Grayish alternating
+            }
+        }
+
+        // Function to sync master checkbox with individual checkboxes
+        function syncMasterCheckbox() {
+            const allChecked = Array.from(rowCheckboxes).every(cb => cb.checked);
+            masterCheckbox.checked = allChecked;
+        }
+
+        // Master checkbox event listener
+        masterCheckbox.addEventListener('change', () => {
+            rowCheckboxes.forEach(checkbox => {
+                checkbox.checked = masterCheckbox.checked;
+                updateRowHighlight(checkbox);
+            });
+        });
+
+        // Individual row checkbox event listeners
+        rowCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                updateRowHighlight(checkbox);
+                syncMasterCheckbox();
+            });
+        });
+
+        // Row hover effects and click effect
+        personnelTable.querySelectorAll('tbody tr').forEach((row, index) => {
+            const initialColor = index % 2 === 0 ? '#e0e0e0' : '#f0f0f0';
+            row.style.backgroundColor = initialColor; // Set initial alternating colors
+
+            row.addEventListener('mouseover', () => {
+                if (!row.querySelector('.rowCheckbox').checked) {
+                    row.style.backgroundColor = '#d4edda'; // Light green for hover
+                }
+                row.style.cursor = 'pointer';
+            });
+
+            row.addEventListener('mouseout', () => {
+                if (!row.querySelector('.rowCheckbox').checked) {
+                    row.style.backgroundColor = initialColor;
+                }
+                row.style.cursor = 'default';
+            });
+
+            row.addEventListener('click', (event) => {
+                // Toggle checkbox if click is not directly on the checkbox itself
+                if (event.target.type !== 'checkbox') {
+                    const checkbox = row.querySelector('.rowCheckbox');
+                    checkbox.checked = !checkbox.checked;
+                    updateRowHighlight(checkbox);
+                    syncMasterCheckbox();
+                }
+            });
+        });
+
+        // Apply initial alternating colors and highlights if any are pre-checked
+        personnelTable.querySelectorAll('tbody tr').forEach((row, index) => {
+            const checkbox = row.querySelector('.rowCheckbox');
+            updateRowHighlight(checkbox);
+        });
+        syncMasterCheckbox(); // Sync master checkbox on load
+    });
+</script>
+<style>
+    #personnelTable {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-family: 'Be Vietnam Pro', sans-serif;
+    }
+    #personnelTable th,
+    #personnelTable td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+    }
+    #personnelTable thead th {
+        background-color: #bbdefb; /* Light blue for header */
+        font-weight: bold;
+        color: #333;
+    }
+    #personnelTable tbody tr:nth-child(even) {
+        background-color: #e0e0e0; /* Gray for even rows */
+    }
+    #personnelTable tbody tr:nth-child(odd) {
+        background-color: #f0f0f0; /* Lighter gray for odd rows */
+    }
+    #personnelTable tbody tr.selected {
+        background-color: #fffde7; /* Yellow for selected rows - not directly used by JS for simplicity as JS sets inline style */
+    }
+    #personnelTable tbody tr:hover {
+        background-color: #d4edda !important; /* Light green on hover, !important to override inline styles if needed for unselected rows */
+        cursor: pointer;
+    }
+    #masterCheckbox,
+    .rowCheckbox {
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+</style>
+

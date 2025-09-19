@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>2.9. Cây thư mục</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+    <style>
+        .tree-container {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+        .tree-node {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .tree-node li {
+            margin: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .tree-label {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 5px;
+            border-radius: 4px;
+            user-select: none; /* Disable text selection */
+            -webkit-user-select: none; /* For Webkit browsers */
+            -moz-user-select: none; /* For Firefox */
+            -ms-user-select: none; /* For Internet Explorer/Edge */
+        }
+        .tree-label:hover {
+            background-color: #e0f7fa; /* Light blue on hover */
+        }
+        .tree-label.selected {
+            background-color: #bbdefb; /* Blue for selected */
+            font-weight: bold;
+        }
+        .toggle-icon {
+            width: 16px;
+            height: 16px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 5px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            background-color: #f0f0f0;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: #333;
+        }
+        .toggle-icon.hidden {
+            visibility: hidden; /* Hide +/- for leaf nodes */
+        }
+        .folder-icon {
+            /* width: 16px;
+            height: 16px; */
+            margin-right: 5px;
+            /* background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fdd835"><path d="M10 4H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/></svg>'); */ /* Yellow folder icon */
+            background-size: contain;
+            background-repeat: no-repeat;
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+        .file-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#9e9e9e"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>'); /* Gray file icon */
+            background-size: contain;
+            background-repeat: no-repeat;
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+        .collapsed > .tree-label + .tree-node {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-container">
+        <div id="top"></div>
+        
+        <div id="middle">
+            <div id="left"></div>
+            
+            <div id="center">
+                <p class="content-header">2.9. Cây thư mục</p>
+                <div class="tree-container">
+                    <ul class="tree-node">
+                        <li class="has-children">
+                            <span class="tree-label"><span class="toggle-icon">-</span><span class="folder-icon"></span>Root</span>
+                            <ul class="tree-node">
+                                <li class="has-children">
+                                    <span class="tree-label"><span class="toggle-icon">-</span><span class="folder-icon"></span>Folder 1</span>
+                                    <ul class="tree-node">
+                                        <li><span class="tree-label"><span class="toggle-icon hidden"></span><span class="file-icon"></span>File 1-1</span></li>
+                                        <li><span class="tree-label"><span class="toggle-icon hidden"></span><span class="file-icon"></span>File 1-2</span></li>
+                                    </ul>
+                                </li>
+                                <li class="has-children">
+                                    <span class="tree-label"><span class="toggle-icon">-</span><span class="folder-icon"></span>Folder 2</span>
+                                    <ul class="tree-node">
+                                        <li><span class="tree-label"><span class="toggle-icon hidden"></span><span class="folder-icon"></span>Folder 2-1</span></li>
+                                        <li class="has-children">
+                                            <span class="tree-label"><span class="toggle-icon">-</span><span class="folder-icon"></span>Folder 2-2</span>
+                                            <ul class="tree-node">
+                                                <li><span class="tree-label"><span class="toggle-icon hidden"></span><span class="folder-icon"></span>Folder 2-2-1</span></li>
+                                                <li><span class="tree-label"><span class="toggle-icon hidden"></span><span class="folder-icon"></span>Folder 2-2-2</span></li>
+                                            </ul>
+                                        </li>
+                                        <li><span class="tree-label"><span class="toggle-icon hidden"></span><span class="folder-icon"></span>Folder 2-3</span></li>
+                                    </ul>
+                                </li>
+                                <li><span class="tree-label"><span class="toggle-icon hidden"></span><span class="folder-icon"></span>Folder 3</span></li>
+                                <li class="has-children">
+                                    <span class="tree-label"><span class="toggle-icon">+</span><span class="folder-icon"></span>Folder 4</span>
+                                    <ul class="tree-node collapsed">
+                                        <li><span class="tree-label"><span class="toggle-icon hidden"></span><span class="file-icon"></span>File 4-1</span></li>
+                                        <li><span class="tree-label"><span class="toggle-icon hidden"></span><span class="file-icon"></span>File 4-2</span></li>
+                                    </ul>
+                                </li>
+                                <li><span class="tree-label"><span class="toggle-icon hidden"></span><span class="folder-icon"></span>Folder 5</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="bottom"></div>
+    </div>
+<script>
+    async function loadCommonElements() {
+        console.log('Attempting to load common elements...');
+        try {
+            const headerResponse = await fetch('common_header.html');
+            if (headerResponse.ok) {
+                const headerContent = await headerResponse.text();
+                document.getElementById('top').innerHTML = headerContent;
+                console.log('Header loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_header.html:', headerResponse.statusText);
+            }
+
+            const navResponse = await fetch('common_navigation_bai2.html');
+            if (navResponse.ok) {
+                const navContent = await navResponse.text();
+                document.getElementById('left').innerHTML = navContent;
+                console.log('Navigation loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_navigation.html:', navResponse.statusText);
+            }
+
+            const footerResponse = await fetch('common_footer.html');
+            if (footerResponse.ok) {
+                const footerContent = await footerResponse.text();
+                document.getElementById('bottom').innerHTML = footerContent;
+                console.log('Footer loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_footer.html:', footerResponse.statusText);
+            }
+
+            let currentPath = window.location.pathname.split('/').pop();
+            if (currentPath === '') {
+                currentPath = 'index.html';
+            }
+            const navLinks = document.querySelectorAll('#left ul li a');
+
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href');
+                if (currentPath === linkPath || (currentPath.startsWith('example') && currentPath.endsWith('.html') && linkPath === 'example_list.html') || (currentPath.startsWith('test') && currentPath.endsWith('.html') && linkPath === 'quiz_list.html') || (currentPath.startsWith('form_lop.html') && linkPath === 'form_lop.html') || (currentPath.startsWith('form_hoso.html') && linkPath === 'form_hoso.html') || (currentPath.startsWith('register.html') && linkPath === 'register.html') || (currentPath.startsWith('personnel_list.html') && linkPath === 'personnel_list.html') || (currentPath.startsWith('admin_menu.html') && linkPath === 'admin_menu.html') || (currentPath.startsWith('dynamic_tabs.html') && linkPath === 'dynamic_tabs.html') || (currentPath.startsWith('tree_view.html') && linkPath === 'tree_view.html')) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            console.log('Navigation highlighting applied.');
+        } catch (error) {
+            console.error('Error loading common elements:', error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCommonElements);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const treeNodes = document.querySelectorAll('.tree-node li.has-children'); // Only target parent nodes
+        let selectedNode = null;
+
+        treeNodes.forEach(node => {
+            const toggleIcon = node.querySelector('.toggle-icon');
+            const label = node.querySelector('.tree-label');
+            const childUl = node.querySelector('ul.tree-node'); // Select the immediate child UL
+
+            if (toggleIcon && childUl) {
+                toggleIcon.addEventListener('click', (event) => {
+                    event.stopPropagation(); // Prevent label click from firing
+                    node.classList.toggle('collapsed'); // Toggle collapsed class on the LI
+                    toggleIcon.textContent = node.classList.contains('collapsed') ? '+' : '-';
+                });
+            }
+
+            if (label) {
+                label.addEventListener('click', () => {
+                    // Deselect previous node
+                    if (selectedNode) {
+                        selectedNode.classList.remove('selected');
+                    }
+                    // Select current node
+                    label.classList.add('selected');
+                    selectedNode = label;
+                });
+
+                // Add double-click to toggle for parent folders
+                if (node.classList.contains('has-children')) {
+                    label.addEventListener('dblclick', (event) => {
+                        event.preventDefault(); // Prevent text selection on double click
+                        event.stopPropagation(); // Prevent label click from firing again
+                        node.classList.toggle('collapsed'); // Toggle collapsed class on the LI
+                        if (toggleIcon) {
+                            toggleIcon.textContent = node.classList.contains('collapsed') ? '+' : '-';
+                        }
+                    });
+                }
+            }
+        });
+
+        // Ensure initial state for collapsed folders matches icon
+        document.querySelectorAll('.tree-node li.has-children').forEach(node => {
+            const toggleIcon = node.querySelector('.toggle-icon');
+            const childUl = node.querySelector('ul.tree-node');
+            if (toggleIcon && childUl) {
+                if (node.classList.contains('collapsed')) {
+                    toggleIcon.textContent = '+';
+                } else {
+                    toggleIcon.textContent = '-';
+                }
+            }
+        });
+    });
+</script>

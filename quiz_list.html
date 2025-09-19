@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="utf-8">
-    <title>Trang chủ</title>
+    <title>2.2. Thi trắc nghiệm</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
 </head>
@@ -14,9 +14,15 @@
             <div id="left"></div>
             
             <div id="center">
-                <p class="content-header">This is a header</p>
-                <p>This is a paragraph</p>
-                <p>This is another paragraph</p>
+                <p class="content-header">2.2. Chọn bài thi trắc nghiệm</p>
+                <div class="content-text">
+                    <p>Chào mừng bạn đến với phần thi trắc nghiệm! Vui lòng chọn một bài kiểm tra dưới đây để bắt đầu.</p>
+                    <ul style="list-style-type:none; padding-left:0;">
+                        <li><a href="test1.html">TEST 1 - Kiến thức Web cơ bản</a></li>
+                        <li><a href="test2.html">TEST 2 - JavaScript nâng cao</a></li>
+                        <!-- Thêm các bài test khác tại đây -->
+                    </ul>
+                </div>
             </div>
         </div>
         
@@ -27,7 +33,7 @@
         const headerResponse = await fetch('common_header.html');
         document.getElementById('top').innerHTML = await headerResponse.text();
 
-        const navResponse = await fetch('common_navigation_bai1.html');
+        const navResponse = await fetch('common_navigation_bai2.html');
         document.getElementById('left').innerHTML = await navResponse.text();
 
         const footerResponse = await fetch('common_footer.html');

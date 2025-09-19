@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>2.4. Form nhập liệu HOSO</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="main-container">
+        <div id="top"></div>
+        
+        <div id="middle">
+            <div id="left"></div>
+            
+            <div id="center">
+                <p class="content-header">2.4. Form nhập liệu HOSO</p>
+                <div class="content-text">
+                    <form id="hosoForm">
+                        <div class="form-group">
+                            <label for="mahs">Mã học sinh:</label>
+                            <input type="text" id="mahs" name="mahs" maxlength="8" required>
+                            <span class="error-message" id="mahsError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hoten">Họ tên:</label>
+                            <input type="text" id="hoten" name="hoten" maxlength="50" required>
+                            <span class="error-message" id="hotenError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ngaysinh">Ngày sinh:</label>
+                            <input type="date" id="ngaysinh" name="ngaysinh" required>
+                            <span class="error-message" id="ngaysinhError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="diachi">Địa chỉ:</label>
+                            <input type="text" id="diachi" name="diachi" maxlength="150" required>
+                            <span class="error-message" id="diachiError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lop">Lớp:</label>
+                            <input type="text" id="lop" name="lop" maxlength="6" required>
+                            <span class="error-message" id="lopError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="diemtoan">Điểm toán:</label>
+                            <input type="number" id="diemtoan" name="diemtoan" step="0.01" min="0" max="10" required>
+                            <span class="error-message" id="diemtoanError"></span>
+                        </div>
+                        
+                        <button type="submit">Gửi dữ liệu</button>
+                    </form>
+                    <div id="formResult" style="margin-top: 20px; font-weight: bold;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="bottom"></div>
+    </div>
+<script>
+    async function loadCommonElements() {
+        const headerResponse = await fetch('common_header.html');
+        document.getElementById('top').innerHTML = await headerResponse.text();
+
+        const navResponse = await fetch('common_navigation_bai2.html');
+        document.getElementById('left').innerHTML = await navResponse.text();
+
+        const footerResponse = await fetch('common_footer.html');
+        document.getElementById('bottom').innerHTML = await footerResponse.text();
+
+        // After loading common elements, apply navigation highlighting and form validation
+        let currentPath = window.location.pathname.split('/').pop();
+        if (currentPath === '') {
+            currentPath = 'index.html';
+        }
+        const navLinks = document.querySelectorAll('#left ul li a');
+
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (currentPath === linkPath || (currentPath.startsWith('example') && currentPath.endsWith('.html') && linkPath === 'example_list.html') || (currentPath.startsWith('test') && currentPath.endsWith('.html') && linkPath === 'quiz_list.html') || (currentPath.startsWith('form_lop.html') && linkPath === 'form_lop.html') || (currentPath.startsWith('form_hoso.html') && linkPath === 'form_hoso.html')) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        // Form validation logic for HOSO
+        const form = document.getElementById('hosoForm');
+        const formResult = document.getElementById('formResult');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            let isValid = true;
+            formResult.innerHTML = ''; // Clear previous results
+
+            // Validate MAHS
+            const mahsInput = document.getElementById('mahs');
+            const mahsError = document.getElementById('mahsError');
+            if (mahsInput.value.trim() === '') {
+                mahsError.textContent = "Mã học sinh không được để trống.";
+                isValid = false;
+            } else if (mahsInput.value.trim().length !== 8) {
+                mahsError.textContent = "Mã học sinh phải có đúng 8 ký tự.";
+                isValid = false;
+            } else {
+                mahsError.textContent = '';
+            }
+
+            // Validate HOTEN
+            const hotenInput = document.getElementById('hoten');
+            const hotenError = document.getElementById('hotenError');
+            if (hotenInput.value.trim() === '') {
+                hotenError.textContent = "Họ tên không được để trống.";
+                isValid = false;
+            } else if (hotenInput.value.trim().length > 50) {
+                hotenError.textContent = "Họ tên không được vượt quá 50 ký tự.";
+                isValid = false;
+            } else {
+                hotenError.textContent = '';
+            }
+
+            // Validate NGAYSINH
+            const ngaysinhInput = document.getElementById('ngaysinh');
+            const ngaysinhError = document.getElementById('ngaysinhError');
+            if (ngaysinhInput.value.trim() === '') {
+                ngaysinhError.textContent = "Ngày sinh không được để trống.";
+                isValid = false;
+            } else {
+                // Basic date validation (can be enhanced)
+                const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+                if (!dateRegex.test(ngaysinhInput.value)) {
+                    ngaysinhError.textContent = "Ngày sinh không đúng định dạng YYYY-MM-DD.";
+                    isValid = false;
+                } else {
+                    ngaysinhError.textContent = '';
+                }
+            }
+
+            // Validate DIACHI
+            const diachiInput = document.getElementById('diachi');
+            const diachiError = document.getElementById('diachiError');
+            if (diachiInput.value.trim() === '') {
+                diachiError.textContent = "Địa chỉ không được để trống.";
+                isValid = false;
+            } else if (diachiInput.value.trim().length > 150) {
+                diachiError.textContent = "Địa chỉ không được vượt quá 150 ký tự.";
+                isValid = false;
+            } else {
+                diachiError.textContent = '';
+            }
+
+            // Validate LOP
+            const lopInput = document.getElementById('lop');
+            const lopError = document.getElementById('lopError');
+            if (lopInput.value.trim() === '') {
+                lopError.textContent = "Lớp không được để trống.";
+                isValid = false;
+            } else if (lopInput.value.trim().length !== 6) {
+                lopError.textContent = "Lớp phải có đúng 6 ký tự.";
+                isValid = false;
+            } else {
+                lopError.textContent = '';
+            }
+
+            // Validate DIEMTOAN
+            const diemtoanInput = document.getElementById('diemtoan');
+            const diemtoanError = document.getElementById('diemtoanError');
+            const diemtoanValue = parseFloat(diemtoanInput.value.trim());
+            if (diemtoanInput.value.trim() === '') {
+                diemtoanError.textContent = "Điểm toán không được để trống.";
+                isValid = false;
+            } else if (isNaN(diemtoanValue) || diemtoanValue < 0 || diemtoanValue > 10) {
+                diemtoanError.textContent = "Điểm toán phải là một số từ 0 đến 10.";
+                isValid = false;
+            } else {
+                diemtoanError.textContent = '';
+            }
+
+            if (isValid) {
+                formResult.style.color = 'green';
+                formResult.innerHTML = `<h3>Dữ liệu đã nhập hợp lệ:</h3>
+                                        <p><b>Mã học sinh:</b> ${mahsInput.value.trim()}</p>
+                                        <p><b>Họ tên:</b> ${hotenInput.value.trim()}</p>
+                                        <p><b>Ngày sinh:</b> ${ngaysinhInput.value.trim()}</p>
+                                        <p><b>Địa chỉ:</b> ${diachiInput.value.trim()}</p>
+                                        <p><b>Lớp:</b> ${lopInput.value.trim()}</p>
+                                        <p><b>Điểm toán:</b> ${diemtoanValue}</p>`;
+            } else {
+                formResult.style.color = 'red';
+                formResult.textContent = "Vui lòng kiểm tra lại các trường bị lỗi.";
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCommonElements);
+</script>
+<style>
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group input[type="date"] {
+        width: calc(100% - 22px); /* Account for padding and border */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    .form-group .error-message {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 5px;
+        display: block;
+    }
+    button[type="submit"] {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+    }
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="utf-8">
-    <title>Trang chủ</title>
+    <title>Câu 4. Ví dụ sử dụng đối tượng ngày tháng năm trong JS</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
 </head>
@@ -14,9 +14,30 @@
             <div id="left"></div>
             
             <div id="center">
-                <p class="content-header">This is a header</p>
-                <p>This is a paragraph</p>
-                <p>This is another paragraph</p>
+                <p class="content-header">Câu 4. Ví dụ sử dụng đối tượng ngày tháng năm trong JS</p>
+                <div class="content-text">
+                    <p>Đối tượng <code>Date</code> trong JavaScript cho phép bạn làm việc với ngày và giờ hiện tại. Bạn có thể sử dụng nó để lấy thông tin như giờ, phút, giây, ngày, tháng, năm, v.v.</p>
+                    <p>Nhấn nút bên dưới để xem lời chào dựa trên giờ hiện tại:</p>
+                    <button onclick="displayGreeting()">Hiển thị lời chào</button>
+                    <p id="greetingOutput" style="margin-top: 20px; font-weight: bold; font-size: 1.2em;"></p>
+                </div>
+                <script type="text/javascript">
+                    function displayGreeting() {
+                        let d = new Date();
+                        let hour = d.getHours(); // Lấy giờ hiện tại (0-23)
+                        let greetingOutput = document.getElementById('greetingOutput');
+                        let greeting = "";
+
+                        if (hour < 10) {
+                            greeting = "Chào buổi sáng!";
+                        } else if (hour >= 10 && hour < 18) {
+                            greeting = "Chào buổi chiều!";
+                        } else {
+                            greeting = "Chào buổi tối!";
+                        }
+                        greetingOutput.textContent = greeting + ` (Hiện tại là ${hour} giờ)`;
+                    }
+                </script>
             </div>
         </div>
         
@@ -27,7 +48,7 @@
         const headerResponse = await fetch('common_header.html');
         document.getElementById('top').innerHTML = await headerResponse.text();
 
-        const navResponse = await fetch('common_navigation_bai1.html');
+        const navResponse = await fetch('common_navigation_bai2.html');
         document.getElementById('left').innerHTML = await navResponse.text();
 
         const footerResponse = await fetch('common_footer.html');

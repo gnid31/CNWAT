@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>2.7. Thực đơn quản lý</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+    <style>
+        .admin-menu-container {
+            display: flex;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            min-height: 400px; /* Ensure content area has some height */
+        }
+        .admin-menu {
+            width: 300px; /* Fixed width for the menu on the left */
+            background-color: #f8f9fa;
+            border-right: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .admin-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .admin-menu li {
+            padding: 12px 20px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+        .admin-menu li:last-child {
+            border-bottom: none;
+        }
+        .admin-menu li:hover {
+            background-color: #e2f2ff; /* Lighter blue for hover */
+        }
+        .admin-menu li.active {
+            background-color: #bbdefb; /* Blue for active */
+            color: #000; /* Darker text for active */
+            font-weight: bold;
+        }
+        .admin-menu li::before {
+            content: "» ";
+            color: #007bff;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        .admin-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #fff;
+        }
+        .admin-content-title {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 1.5em;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-container">
+        <div id="top"></div>
+        
+        <div id="middle">
+            <div id="left"></div>
+            
+            <div id="center">
+                <p class="content-header">2.7. Thực đơn quản lý</p>
+                <div class="admin-menu-container">
+                    <div class="admin-menu">
+                        <ul>
+                            <li data-title="Quản lý cán bộ (Đăng ký thông tin)">Quản lý cán bộ (Đăng ký thông tin)</li>
+                            <li data-title="Phân quyền">Phân quyền</li>
+                            <li data-title="Cổng thông tin đào tạo và người học">Cổng thông tin đào tạo và người học</li>
+                            <li data-title="Quản lý văn bản và hồ sơ công việc">Quản lý văn bản và hồ sơ công việc)</li>
+                            <li data-title="Hành chính công">Hành chính công</li>
+                            <li data-title="Hệ thống thông tin báo cáo">Hệ thống thông tin báo cáo</li>
+                        </ul>
+                    </div>
+                    <div class="admin-content">
+                        <p class="admin-content-title" id="selectedMenuItemTitle">Chào mừng đến với hệ thống quản lý!</p>
+                        <!-- Content for selected menu item can go here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="bottom"></div>
+    </div>
+<script>
+    async function loadCommonElements() {
+        console.log('Attempting to load common elements...');
+        try {
+            const headerResponse = await fetch('common_header.html');
+            if (headerResponse.ok) {
+                const headerContent = await headerResponse.text();
+                document.getElementById('top').innerHTML = headerContent;
+                console.log('Header loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_header.html:', headerResponse.statusText);
+            }
+
+            const navResponse = await fetch('common_navigation_bai2.html');
+            if (navResponse.ok) {
+                const navContent = await navResponse.text();
+                document.getElementById('left').innerHTML = navContent;
+                console.log('Navigation loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_navigation.html:', navResponse.statusText);
+            }
+
+            const footerResponse = await fetch('common_footer.html');
+            if (footerResponse.ok) {
+                const footerContent = await footerResponse.text();
+                document.getElementById('bottom').innerHTML = footerContent;
+                console.log('Footer loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_footer.html:', footerResponse.statusText);
+            }
+
+            let currentPath = window.location.pathname.split('/').pop();
+            if (currentPath === '') {
+                currentPath = 'index.html';
+            }
+            const navLinks = document.querySelectorAll('#left ul li a');
+
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href');
+                if (currentPath === linkPath || (currentPath.startsWith('example') && currentPath.endsWith('.html') && linkPath === 'example_list.html') || (currentPath.startsWith('test') && currentPath.endsWith('.html') && linkPath === 'quiz_list.html') || (currentPath.startsWith('form_lop.html') && linkPath === 'form_lop.html') || (currentPath.startsWith('form_hoso.html') && linkPath === 'form_hoso.html') || (currentPath.startsWith('register.html') && linkPath === 'register.html') || (currentPath.startsWith('personnel_list.html') && linkPath === 'personnel_list.html') || (currentPath.startsWith('admin_menu.html') && linkPath === 'admin_menu.html')) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            console.log('Navigation highlighting applied.');
+        } catch (error) {
+            console.error('Error loading common elements:', error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCommonElements);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const menuItems = document.querySelectorAll('.admin-menu ul li');
+        const selectedMenuItemTitle = document.getElementById('selectedMenuItemTitle');
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Remove active class from all other items
+                menuItems.forEach(i => i.classList.remove('active'));
+                // Add active class to the clicked item
+                item.classList.add('active');
+                // Update the title in the content area
+                selectedMenuItemTitle.textContent = item.dataset.title;
+            });
+        });
+
+        // Set initial active state and title if desired, e.g., for the first item
+        if (menuItems.length > 0) {
+            menuItems[0].click(); // Simulate click on the first item to set initial state
+        }
+    });
+</script>
+

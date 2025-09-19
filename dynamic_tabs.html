@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>2.8. Tabs động</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+    <style>
+        .tabs-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            background-color: #f8f9fa;
+        }
+        .tab-button {
+            padding: 12px 20px;
+            cursor: pointer;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            color: #333;
+            border-right: 1px solid #eee;
+            user-select: none; /* Prevent text selection */
+        }
+        .tab-button:last-child {
+            border-right: none;
+        }
+        .tab-button:not(.active):hover {
+            background-color: #e2f2ff; /* Lighter blue for hover on unselected tabs */
+        }
+        .tab-button.active {
+            background-color: #bbdefb; /* Blue for active tab */
+            color: #000; /* Darker text for active */
+            font-weight: bold;
+            border-bottom: 2px solid #007bff;
+        }
+        .tab-content {
+            padding: 20px;
+            background-color: #fff;
+            min-height: 200px; /* Ensure content area has some height */
+        }
+    </style>
+</head>
+<body>
+    <div id="main-container">
+        <div id="top"></div>
+        
+        <div id="middle">
+            <div id="left"></div>
+            
+            <div id="center">
+                <p class="content-header">2.8. Tabs động</p>
+                <div class="tabs-container">
+                    <div class="tab-buttons">
+                        <div class="tab-button" data-tab="tab1">Tab 1</div>
+                        <div class="tab-button" data-tab="tab2">Tab 2</div>
+                        <div class="tab-button" data-tab="tab3">Tab 3</div>
+                    </div>
+                    <div class="tab-content" id="tabContent">
+                        <!-- Content will be loaded here -->
+                        <p>Chọn một tab để xem nội dung.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="bottom"></div>
+    </div>
+<script>
+    async function loadCommonElements() {
+        console.log('Attempting to load common elements...');
+        try {
+            const headerResponse = await fetch('common_header.html');
+            if (headerResponse.ok) {
+                const headerContent = await headerResponse.text();
+                document.getElementById('top').innerHTML = headerContent;
+                console.log('Header loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_header.html:', headerResponse.statusText);
+            }
+
+            const navResponse = await fetch('common_navigation_bai2.html');
+            if (navResponse.ok) {
+                const navContent = await navResponse.text();
+                document.getElementById('left').innerHTML = navContent;
+                console.log('Navigation loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_navigation.html:', navResponse.statusText);
+            }
+
+            const footerResponse = await fetch('common_footer.html');
+            if (footerResponse.ok) {
+                const footerContent = await footerResponse.text();
+                document.getElementById('bottom').innerHTML = footerContent;
+                console.log('Footer loaded successfully.');
+            } else {
+                console.error('Failed to fetch common_footer.html:', footerResponse.statusText);
+            }
+
+            let currentPath = window.location.pathname.split('/').pop();
+            if (currentPath === '') {
+                currentPath = 'index.html';
+            }
+            const navLinks = document.querySelectorAll('#left ul li a');
+
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href');
+                if (currentPath === linkPath || (currentPath.startsWith('example') && currentPath.endsWith('.html') && linkPath === 'example_list.html') || (currentPath.startsWith('test') && currentPath.endsWith('.html') && linkPath === 'quiz_list.html') || (currentPath.startsWith('form_lop.html') && linkPath === 'form_lop.html') || (currentPath.startsWith('form_hoso.html') && linkPath === 'form_hoso.html') || (currentPath.startsWith('register.html') && linkPath === 'register.html') || (currentPath.startsWith('personnel_list.html') && linkPath === 'personnel_list.html') || (currentPath.startsWith('admin_menu.html') && linkPath === 'admin_menu.html') || (currentPath.startsWith('dynamic_tabs.html') && linkPath === 'dynamic_tabs.html')) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            console.log('Navigation highlighting applied.');
+        } catch (error) {
+            console.error('Error loading common elements:', error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCommonElements);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContentDiv = document.getElementById('tabContent');
+
+        async function loadTabContent(tabName) {
+            try {
+                const response = await fetch(`${tabName}_content.html`);
+                if (response.ok) {
+                    tabContentDiv.innerHTML = await response.text();
+                } else {
+                    tabContentDiv.innerHTML = `<p style="color: red;">Không thể tải nội dung cho ${tabName}.</p>`;
+                    console.error(`Failed to load ${tabName}_content.html:`, response.statusText);
+                }
+            } catch (error) {
+                tabContentDiv.innerHTML = `<p style="color: red;">Lỗi khi tải nội dung cho ${tabName}.</p>`;
+                console.error(`Error fetching ${tabName}_content.html:`, error);
+            }
+        }
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to the clicked button
+                button.classList.add('active');
+
+                const tabName = button.dataset.tab;
+                loadTabContent(tabName);
+            });
+        });
+
+        // Activate the first tab and load its content on initial page load
+        if (tabButtons.length > 0) {
+            tabButtons[0].click();
+        }
+    });
+</script>
+

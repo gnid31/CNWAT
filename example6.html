@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="utf-8">
-    <title>Trang chủ</title>
+    <title>Câu 6. Ví dụ sử dụng confirm</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
 </head>
@@ -14,9 +14,25 @@
             <div id="left"></div>
             
             <div id="center">
-                <p class="content-header">This is a header</p>
-                <p>This is a paragraph</p>
-                <p>This is another paragraph</p>
+                <p class="content-header">Câu 6. Ví dụ sử dụng confirm</p>
+                <div class="content-text">
+                    <p>Hộp thoại <code>confirm()</code> trong JavaScript được sử dụng để hỏi người dùng một câu hỏi và nhận câu trả lời dưới dạng <b>Đồng ý (OK)</b> hoặc <b>Hủy bỏ (Cancel)</b>.</p>
+                    <p>Nhấn nút bên dưới để thử hộp thoại xác nhận:</p>
+                    <button onclick="showConfirmBox()">Hiển thị hộp thoại xác nhận</button>
+                    <p id="confirmResult" style="margin-top: 20px; font-weight: bold;"></p>
+                </div>
+                <script type="text/javascript">
+                    function showConfirmBox() {
+                        let confirmResultElement = document.getElementById('confirmResult');
+                        let userResponse = confirm("Bạn có chắc chắn muốn tiếp tục không?");
+
+                        if (userResponse) {
+                            confirmResultElement.textContent = "Bạn đã nhấn 'Đồng ý' (OK).";
+                        } else {
+                            confirmResultElement.textContent = "Bạn đã nhấn 'Hủy bỏ' (Cancel).";
+                        }
+                    }
+                </script>
             </div>
         </div>
         
@@ -27,7 +43,7 @@
         const headerResponse = await fetch('common_header.html');
         document.getElementById('top').innerHTML = await headerResponse.text();
 
-        const navResponse = await fetch('common_navigation_bai1.html');
+        const navResponse = await fetch('common_navigation_bai2.html');
         document.getElementById('left').innerHTML = await navResponse.text();
 
         const footerResponse = await fetch('common_footer.html');

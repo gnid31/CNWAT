@@ -14,26 +14,32 @@
             <div id="left"></div>
             
             <div id="center">
-                <p class="content-header">This is a header</p>
-                <p>This is a paragraph</p>
-                <p>This is another paragraph</p>
+                <h1 style="color: #333; font-size: 2.5em; margin-bottom: 20px;">Chào! Tớ là Định</h1>
+                <div style="display: flex; align-items: flex-start; gap: 20px; margin-bottom: 30px;">
+                    <div style="width: 120px; height: 120px; border-radius: 50%; overflow: hidden; border: 2px solid #ddd; flex-shrink: 0;">
+                        <img src="images/avatar.jpg" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 8px; color: #555;">• Tớ hiện đang là sinh viên của Học viện Kỹ thuật Mật Mã</li>
+                        <li style="margin-bottom: 8px; color: #555;">• <b>Tên: </b>TRẦN CÔNG ĐỊNH</li>
+                        <li style="margin-bottom: 8px; color: #555;">• <b>Ngày sinh: </b> </b>03/01/2004</li>
+                        <li style="margin-bottom: 8px; color: #555;">• <b>Quê quán: </b>Hà Nội, Việt Nam</li>
+                        <li style="margin-bottom: 8px; color: #555;">• <b>Chuyên ngành: </b>An toàn thông tin</li>
+                    </ul>
+                </div>
+                <p style="color: #444; line-height: 1.6; margin-bottom: 20px; font-size: 1.1em;">Mình là 1 bạn trẻ đam mê IT và hằng say với những project website của riêng mình (mặc dù chưa biết nhiều về HTML, PHP, CSS, .... )</p>
+                <p style="color: #444; line-height: 1.6; font-size: 1.1em;">Đặc điểm nhận dạng: gầy, còi xương.</p>
             </div>
         </div>
         
         <div id="bottom"></div>
     </div>
-<script>
-    // Chỉ chuyển hướng sang trang Home nếu không có lesson và không phải truy cập từ nút Bài 1
-    const urlParams = new URLSearchParams(window.location.search);
-    if (!urlParams.has('lesson')) {
-        window.location.href = 'home_content.html';
-    }
-
+    <script>
     async function loadCommonElements() {
         const headerResponse = await fetch('common_header.html');
         document.getElementById('top').innerHTML = await headerResponse.text();
 
-        const navResponse = await fetch('common_navigation_bai1.html');
+        const navResponse = await fetch('common_navigation_home.html');
         document.getElementById('left').innerHTML = await navResponse.text();
 
         const footerResponse = await fetch('common_footer.html');
@@ -58,5 +64,6 @@
 
     document.addEventListener('DOMContentLoaded', loadCommonElements);
 </script>
+    <script src="script.js"></script>
 </body>
 </html>

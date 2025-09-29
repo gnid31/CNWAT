@@ -19,7 +19,7 @@
                     <p>Hiệu ứng ảnh (Image Rollover) là khi hình ảnh thay đổi khi con trỏ chuột di chuyển vào hoặc ra khỏi nó. Ví dụ này sử dụng JavaScript để thay đổi thuộc tính <code>src</code> của thẻ <code>&lt;img&gt;</code>.</p>
                     <p>Di chuyển chuột vào và ra khỏi hình ảnh bên dưới để xem hiệu ứng:</p>
                     <div id="imageHoverContainer" onmouseover="mouseOverEffect()" onmouseout="mouseOutEffect()" style="width: 400px; height: 300px; display: inline-block; border: 2px solid #ccc; border-radius: 8px; cursor: pointer;">
-                        <img id="myImage" src="images/avatar.jpg" alt="Ảnh minh họa" width="100%" height="100%" style="object-fit: contain; display: block; background-color: #f0f0f0;">
+                        <img id="myImage" src="../images/avatar.jpg" alt="Ảnh minh họa" width="100%" height="100%" style="object-fit: contain; display: block; background-color: #f0f0f0;">
                     </div>
                     <p id="imageStatus" style="margin-top: 20px; font-weight: bold;"></p>
                     <p style="font-size: 0.9em; color: #666;"><em>Lưu ý: Để hiệu ứng hoạt động, bạn cần có các tệp ảnh `images/avatar.jpg` và `images/meo.jpg` trong thư mục `images/`.</em></p>
@@ -27,10 +27,10 @@
                 <script type="text/javascript">
                     // Preload images
                     const imgAvatar = new Image();
-                    imgAvatar.src = "images/avatar.jpg";
+                    imgAvatar.src = "../images/avatar.jpg";
 
                     const imgAvatarHover = new Image();
-                    imgAvatarHover.src = "images/meo.jpg"; // Updated to meo.jpg
+                    imgAvatarHover.src = "../images/meo.jpg"; // Updated to meo.jpg
 
                     function mouseOverEffect() {
                         document.getElementById('myImage').src = imgAvatarHover.src;

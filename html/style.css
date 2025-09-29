@@ -550,7 +550,7 @@ h1, h2, h3 {
     width: 30px; /* Increased size */
     height: 30px; /* Increased size */
     margin-right: 5px;
-    background-image: url('images/folder.png'); /* Use provided folder.png */
+    background-image: url('../images/folder.png'); /* Use provided folder.png */
     background-size: contain;
     background-repeat: no-repeat;
     flex-shrink: 0;

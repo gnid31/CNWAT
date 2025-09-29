@@ -111,6 +111,26 @@
 
         const navResponse = await fetch('common_navigation_admin.php');
         document.getElementById('left').innerHTML = await navResponse.text();
+
+        // Highlight menu
+        let currentPath = window.location.pathname.split('/18_trancongdinh/php/admin/')[1] || '';
+        currentPath = currentPath.split('?')[0];
+        if (currentPath === '' || currentPath === undefined) {
+            currentPath = 'upload.php';
+        }
+        const navLinks = document.querySelectorAll('#left ul li a');
+        navLinks.forEach(link => {
+            let linkHref = link.getAttribute('href');
+            if (linkHref.startsWith('/18_trancongdinh/php/admin/')) {
+                linkHref = linkHref.split('/18_trancongdinh/php/admin/')[1];
+            }
+            linkHref = linkHref.split('?')[0];
+            if (currentPath === linkHref) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
     }
 
     document.addEventListener('DOMContentLoaded', loadCommonElements);

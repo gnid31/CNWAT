@@ -201,6 +201,28 @@
         const navResponse = await fetch('common_navigation_bai3.php');
         document.getElementById('left').innerHTML = await navResponse.text();
 
+        // Sau khi navigation đã được load, thực hiện tô sáng menu
+        // Lấy đường dẫn tương đối từ thư mục php/
+        let currentPath = window.location.pathname.split('/18_trancongdinh/php/')[1] || '';
+        currentPath = currentPath.split('?')[0];
+        if (currentPath === '' || currentPath === undefined) {
+            currentPath = 'home.php';
+        }
+        const navLinks = document.querySelectorAll('#left ul li a');
+        navLinks.forEach(link => {
+            let linkHref = link.getAttribute('href');
+            // Chuẩn hóa đường dẫn tương đối cho link
+            if (linkHref.startsWith('/18_trancongdinh/php/')) {
+                linkHref = linkHref.split('/18_trancongdinh/php/')[1];
+            }
+            linkHref = linkHref.split('?')[0];
+            if (currentPath === linkHref) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
         const footerResponse = await fetch('../html/common_footer.html');
         document.getElementById('bottom').innerHTML = await footerResponse.text();
     }

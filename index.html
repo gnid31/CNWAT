@@ -23,9 +23,11 @@
         <div id="bottom"></div>
     </div>
 <script>
-    // Chỉ chuyển hướng sang trang Home nếu không có lesson và không phải truy cập từ nút Bài 1
+    // Chỉ chuyển hướng sang trang Home nếu không có lesson và KHÔNG phải đang ở index.html
     const urlParams = new URLSearchParams(window.location.search);
-    if (!urlParams.has('lesson')) {
+    const lesson = urlParams.get('lesson');
+    const currentPath = window.location.pathname.split('/').pop();
+    if (!lesson && currentPath !== 'index.html') {
         window.location.href = 'home_content.html';
     }
 

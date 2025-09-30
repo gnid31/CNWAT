@@ -26,6 +26,7 @@
     <li><a href="contact1Page.php">3.11. Form Liên hệ</a></li>
     <li><a href="/18_trancongdinh/php/Enduser/home.php">3.12. User</a></li>
     <li><a href="/18_trancongdinh/php/admin/index.php">3.13. Admin</a></li>
+    <li><a href="/18_trancongdinh/php/student/student_home.php">3.14. Student</a></li>
 </ul>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
